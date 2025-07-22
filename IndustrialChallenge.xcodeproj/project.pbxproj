@@ -10,9 +10,33 @@
 		6E56E2572E2D500300604C01 /* IndustrialChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IndustrialChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3707653B2E2F22D100B8DCD9 /* Exceptions for "IndustrialChallenge" folder in "IndustrialChallenge" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Model/BorrowingLoanRequest.swift,
+			);
+			target = 6E56E2562E2D500300604C01 /* IndustrialChallenge */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		3707653C2E2F22D100B8DCD9 /* Exceptions for "IndustrialChallenge" folder in "Copy Bundle Resources" phase from "IndustrialChallenge" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 6E56E2552E2D500300604C01 /* Resources */;
+			membershipExceptions = (
+				Model/BorrowingLoanRequest.swift,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6E56E2592E2D500300604C01 /* IndustrialChallenge */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3707653B2E2F22D100B8DCD9 /* Exceptions for "IndustrialChallenge" folder in "IndustrialChallenge" target */,
+				3707653C2E2F22D100B8DCD9 /* Exceptions for "IndustrialChallenge" folder in "Copy Bundle Resources" phase from "IndustrialChallenge" target */,
+			);
 			path = IndustrialChallenge;
 			sourceTree = "<group>";
 		};
