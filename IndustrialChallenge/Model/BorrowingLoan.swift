@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BorrowingLoan {
+class BorrowingLoan: ObservableObject {
     var tenor: Int
     var cicilanPerBulan: String
     var totalCicilan: String

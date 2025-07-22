@@ -9,10 +9,8 @@ import SwiftUI
 
 struct ExpenseSheet: View {
     
-    @Binding var expenses:String
-    @Binding var borrowed:String
+    @ObservedObject var viewModel: SiPlinController
     @Binding var currSiPlinStep: SiPlinStep
-    @Binding var income: String
     
     var body: some View {
         NavigationView {
@@ -52,7 +50,7 @@ struct ExpenseSheet: View {
                         HStack {
                             Text("Jumlah pinjaman yang diajukan")
                             Spacer()
-                            Text("Rp \(borrowed)")
+                            Text("Rp \(viewModel.borrowed)")
                             Image(systemName: "pencil")
                         }
                         .font(.caption)
@@ -63,7 +61,7 @@ struct ExpenseSheet: View {
                         HStack {
                             Text("Pendapatan")
                             Spacer()
-                            Text("Rp \(income)")
+                            Text("Rp \(viewModel.income)")
                             Image(systemName: "pencil")
                         }
                         .font(.caption)
@@ -83,7 +81,7 @@ struct ExpenseSheet: View {
                         HStack {
                             Text("Rp")
                             
-                            TextField("Pengeluaran", text: $expenses)
+                            TextField("Pengeluaran", text: $viewModel.expense)
                         }
                         .font(.title3)
                         .fontWeight(.bold)
@@ -105,7 +103,7 @@ struct ExpenseSheet: View {
                     
                     VStack {
                         
-                        NumberKeyboard(inputs: $expenses)
+                        NumberKeyboard(inputs: $viewModel.expense)
                         
                         Button {
                           

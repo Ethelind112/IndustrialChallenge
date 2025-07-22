@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BorrowingLoanRequest {
+class BorrowingLoanRequest: ObservableObject {
     var expense: String
     var income: String
     var borrowingNeed: String
