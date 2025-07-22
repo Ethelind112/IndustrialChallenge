@@ -23,6 +23,11 @@ struct AnalyzerTestingPage: View {
     @State var showDeficit = false
     @State var availableBorrow = false
     
+    
+    @State var showSiPlinPinjam: Bool = true
+    @State var showSiPlinPengeluaran: Bool = false
+    @State var showSiPlinRekomendasi: Bool = false
+    
     var body: some View {
         NavigationStack {
             VStack{
@@ -33,288 +38,184 @@ struct AnalyzerTestingPage: View {
                     Text("Analyze")
                 }
             }
+            .navigationTitle("Halaman Pinjaman")
+            .toolbarTitleDisplayMode(.inline)
+            .padding()
             .sheet(isPresented: $showAnalyzer){
-                VStack {
-                    HStack (alignment: .center) {
-                        Image("SiPlinLogo_Analyzer")
-                            .padding(.trailing, 20)
-                        
-                        VStack (alignment: .leading){
-                            Text("SiPlin")
-                                .font(.title)
-                                .fontWeight(.bold)
-                            Text("Si Pintar Planning")
-                                .font(.caption)
-                                .fontWeight(.medium)
-                                .foregroundColor(.primaryGreen)
-                        }
-                        
-                        Spacer()
-                        
-                    }
-                    .background{
-                        Image("HeaderBackground_Analyzer")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-//                    .background(
-//                        LinearGradient(
-//                            gradient: Gradient(colors: [.test1, .test2]),
-//                            startPoint: UnitPoint(x: 0.91, y: 0.0),
-//                            endPoint: UnitPoint(x: 0.0, y: 0.1)
-//                        )
-//                    )
-                    .frame(maxWidth: .infinity)
-                    .padding(.bottom, 20)
-                    
+                
+                if showSiPlinPinjam {
+                    SiPlinIsiPinjaman(borrowed: $borrowed, showSiPlinPinjam: $showSiPlinPinjam, showSiPlinPengeluaran: $showSiPlinPengeluaran)
+                } else if showSiPlinPengeluaran {
                     VStack {
-                        Text("Langsung dapatkan jumlah pinjaman yang sesuai dengan kapabilitasmu!")
-                            .font(.caption)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .multilineTextAlignment(.leading)
-                        
-                        HStack {
-                            Image("StatusBarIcon")
-                            
-                            Text("Ketahui SiPlin Disini")
-                                .foregroundColor(.primaryGreen)
-                                .font(.caption)
-                                .fontWeight(.medium)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                        .background(
-                            LinearGradient(
-                                gradient: Gradient(colors: [.primaryGreen, .primaryLightGreen]),
-                                startPoint: .bottomTrailing,
-                                endPoint: .bottomLeading
-                            )
-                        )
-                        .border(.primaryGreen, width: 0.44)
-                        .cornerRadius(3.5)
-                        .padding(.vertical, 20)
-                        
-                        VStack (alignment: .leading) {
-                            Text("Mau Pinjam Berapa?")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                            
-                            HStack {
-                                Text("Rp")
-                                
-                                TextField("Jumlah Pinjaman", text: $borrowed)
-                            }
-                            .font(.body)
-                            .fontWeight(.bold)
-                            
-                            Rectangle()
-                                .frame(height: 1, alignment: .bottom)
-                                .foregroundColor(.primaryGreen)
-                            
-                            HStack {
-                                Text("Maksimum Limit Pinjaman")
-                                Spacer()
-                                Text("Rp. 60.000.000")
-                            }
-                            .font(.caption)
-                            
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 16)
-                    
-                    Rectangle()
-                        .frame(height: 1, alignment: .bottom)
-                        .foregroundColor(Color(.lightGray))
-                    
-                    Spacer()
-                    
-                    VStack {
-                        
                         VStack {
-//                            HStack {
-//                                Button {
-//                                    borrowed = borrowed + "1"
-//                                } label: {
-//                                    Text("1")
-//                                }
-//                                
-//                                Spacer()
-//                                
-//                                Button {
-//                                    borrowed = borrowed + "4"
-//                                } label: {
-//                                    Text("4")
-//                                }
-//                                
-//                                Spacer()
-//                                
-//                                Button {
-//                                    borrowed = borrowed + "7"
-//                                } label: {
-//                                    Text("7")
-//                                }
-//                            }
-//                            
-//                            Spacer()
-//                            
-//                            HStack {
-//                                Button {
-//                                    borrowed = borrowed + "2"
-//                                } label: {
-//                                    Text("2")
-//                                }
-//                                
-//                                Spacer()
-//                                
-//                                Button {
-//                                    borrowed = borrowed + "5"
-//                                } label: {
-//                                    Text("5")
-//                                }
-//                                
-//                                Spacer()
-//                                
-//                                Button {
-//                                    borrowed = borrowed + "8"
-//                                } label: {
-//                                    Text("8")
-//                                }
-//                            }
-//                            
-//                            Spacer()
-//                            
-//                            HStack {
-//                                Button {
-//                                    borrowed = borrowed + "3"
-//                                } label: {
-//                                    Text("3")
-//                                }
-//                                
-//                                Spacer()
-//                                
-//                                Button {
-//                                    borrowed = borrowed + "6"
-//                                } label: {
-//                                    Text("6")
-//                                }
-//                                
-//                                Spacer()
-//                                
-//                                Button {
-//                                    borrowed = borrowed + "9"
-//                                } label: {
-//                                    Text("9")
-//                                }
-//                                
-//                                
-//                            }
-//                            
-//                            Spacer()
-//                            
-//                            HStack {
-//                                
-//                                Button {
-//                                    borrowed = borrowed + "0"
-//                                } label: {
-//                                    Text("0")
-//                                }
-//                                
-//                                Spacer()
-//                                
-//                                Button {
-//                                    borrowed = borrowed + "000"
-//                                } label: {
-//                                    Text("000")
-//                                }
-//                                
-//                                Spacer()
-//                                
-//                                Button {
-//                                    if borrowed != ""{
-//                                        borrowed.removeLast()
-//                                    }
-//                                } label: {
-//                                    Image(systemName: "delete.left")
-//                                }
-//                            }
-                            
-                            Grid(alignment: .center, horizontalSpacing: 50, verticalSpacing: 10){
-                                GridRow{
-                                    constructButton(text: "1")
+                            ZStack (alignment: .leading) {
+                                VStack {
+                                    Text("Isi Pengeluaranmu")
+                                        .font(.body)
+                                        .fontWeight(.bold)
                                     
-                                    constructButton(text: "2")
-                                    
-                                    constructButton(text: "3")
+                                    Text("SiPlin")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+//                                        .padding(.top, 0.5)
                                 }
+                                .frame(maxWidth: .infinity)
                                 
-                                GridRow {
-                                    constructButton(text: "4")
-                                    
-                                    constructButton(text: "5")
-                                    
-                                    constructButton(text: "6")
-                                }
-                                
-                                GridRow {
-                                    constructButton(text: "7")
-                                    
-                                    constructButton(text: "8")
-                                    
-                                    constructButton(text: "9")
-                                }
-                                
-                                GridRow {
-                                    constructButton(text: "0")
-                                    
-                                    constructButton(text: "000")
-                                    
-                                    Button {
-                                        if borrowed != ""{
-                                            borrowed.removeLast()
-                                        }
-                                    } label: {
-                                        Image(systemName: "delete.left")
-                                    }
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                Button {
+                                    showSiPlinPinjam.toggle()
+                                    showSiPlinPengeluaran.toggle()
+                                }label: {
+                                    Image(systemName: "arrow.left")
+                                        .foregroundColor(.primaryGreen)
                                 }
                             }
                             
                             Spacer()
                             
-                            Button {
+                            Text("Dengan tahu penghasilan dan pengeluaranmu, SiPlin bisa rekomendasiin jumlah pinjaman yang paling pas buat kamu.")
+                                .font(.caption)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .multilineTextAlignment(.leading)
                                 
-                            }label: {
-                                Text("Lanjut")
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 14)
-                                    .background(.primaryGreen)
-                                    .cornerRadius(14)
-                                    .foregroundColor(.white)
-                                    .font(.footnote)
-                                    .fontWeight(.bold)
+                            Spacer()
+                            
+                            VStack {
+                                HStack {
+                                    Text("Jumlah pinjaman yang diajukan")
+                                    Spacer()
+                                    Text("Rp \(borrowed)")
+                                    Image(systemName: "pencil")
+                                }
+                                .font(.caption)
+                                .padding(16)
+                                .background(Color("AdditionalColorLightGray"))
+                                .cornerRadius(13)
                                 
+                                HStack {
+                                    Text("Pendapatan")
+                                    Spacer()
+                                    Text("Rp \(income)")
+                                    Image(systemName: "pencil")
+                                }
+                                .font(.caption)
+                                .padding(16)
+                                .background(Color("AdditionalColorLightGray"))
+                                .cornerRadius(13)
                             }
-                            .padding(.horizontal, 35)
-                            .padding(.top, 20)
+                            
+                            Spacer()
+                            
+                            VStack (alignment: .leading) {
+                                
+                                HStack {
+                                    Text("Pengeluaranmu per bulan berapa?")
+                                        .fontWeight(.bold)
+                                    
+                                    Button {
+                                        
+                                    }label: {
+                                        Image(systemName: "questionmark.circle")
+                                            .foregroundColor(.toolTipBlue)
+                                    }
+                                }
+                                .font(.callout)
+                                
+                                HStack {
+                                    Text("Rp")
+                                    
+                                    TextField("Pengeluaran", text: $expenses)
+                                }
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                
+                                Rectangle()
+                                    .frame(height: 1, alignment: .center)
+                                    .foregroundColor(.primaryGreen)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.bottom, 24)
                         }
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
+                        .padding([.top, .horizontal], 20)
                         
+                        Rectangle()
+                            .frame(height: 1, alignment: .bottom)
+                            .foregroundColor(Color(.lightGray))
+                        
+                        VStack {
+                            
+                            VStack {
+                                
+                                Grid(alignment: .center, horizontalSpacing: 50, verticalSpacing: 20){
+                                    GridRow{
+                                        constructButton(text: "1")
+                                        
+                                        constructButton(text: "2")
+                                        
+                                        constructButton(text: "3")
+                                    }
+                                    
+                                    GridRow {
+                                        constructButton(text: "4")
+                                        
+                                        constructButton(text: "5")
+                                        
+                                        constructButton(text: "6")
+                                    }
+                                    
+                                    GridRow {
+                                        constructButton(text: "7")
+                                        
+                                        constructButton(text: "8")
+                                        
+                                        constructButton(text: "9")
+                                    }
+                                    
+                                    GridRow {
+                                        constructButton(text: "0")
+                                        
+                                        constructButton(text: "000")
+                                        
+                                        Button {
+                                            if expenses != ""{
+                                                expenses.removeLast()
+                                            }
+                                        } label: {
+                                            Image(systemName: "delete.left")
+                                        }
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    }
+                                }
+                                
+                                Button {
+                                    showSiPlinPinjam.toggle()
+                                    showSiPlinPengeluaran.toggle()
+                                }label: {
+                                    Text("Lanjut")
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 14)
+                                        .background(.primaryGreen)
+                                        .cornerRadius(14)
+                                        .foregroundColor(.white)
+                                        .font(.footnote)
+                                        .fontWeight(.bold)
+                                    
+                                }
+                                .padding(.horizontal, 35)
+                                .padding(.top, 30)
+                            }
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                            .frame(height: 320)
+                            
+                        }
+                        .padding(.vertical, 40)
+                        .padding(.horizontal, 30)
                     }
-                    .padding(.vertical, 40)
-                    .padding(.horizontal, 30)
-                    
-                    Spacer()
-                    
                 }
+                
             }
-            .navigationTitle("Halaman Pinjaman")
-            .toolbarTitleDisplayMode(.inline)
-            .padding()
+            
         }
     }
     
@@ -323,7 +224,7 @@ struct AnalyzerTestingPage: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.white)
         .onTapGesture {
-            borrowed = borrowed + text
+            expenses = expenses + text
         }
     }
     
@@ -414,4 +315,196 @@ struct AnalyzerTestingPage: View {
 
 #Preview {
     AnalyzerTestingPage()
+}
+
+struct SiPlinIsiPinjaman: View {
+    
+    @Binding var borrowed: String
+    @Binding var showSiPlinPinjam: Bool
+    @Binding var showSiPlinPengeluaran: Bool
+    
+    var body: some View {
+        VStack {
+            HStack (alignment: .center) {
+                Image("SiPlinLogo_Analyzer")
+                    .padding(.trailing, 20)
+                
+                VStack (alignment: .leading){
+                    Text("SiPlin")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("Si Pintar Planning")
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundColor(.primaryGreen)
+                }
+                
+                Spacer()
+                
+            }
+            .background{
+                Image("HeaderBackground_Analyzer")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.bottom, 20)
+            
+            VStack {
+                Text("Langsung dapatkan jumlah pinjaman yang sesuai dengan kapabilitasmu!")
+                    .font(.caption)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                
+                Spacer()
+                
+                HStack {
+                    Image("StatusBarIcon")
+                    
+                    Text("Ketahui SiPlin Disini")
+                        .foregroundColor(.primaryGreen)
+                        .font(.caption)
+                        .fontWeight(.medium)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                .background(
+                    RadialGradient(
+                        gradient: Gradient(colors: [
+                            Color.white.opacity(0.5),
+                            Color.additionalColorGreen.opacity(0.5)
+                        ]),
+                        center: UnitPoint(x: -0.0324, y: 1.1125),
+                        startRadius: 0,
+                        endRadius: 200
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 3.5))
+                )
+                .border(.primaryGreen, width: 0.44)
+                .cornerRadius(3.5)
+                
+                Spacer()
+                
+                VStack (alignment: .leading) {
+                    Text("Mau Pinjam Berapa?")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                    
+                    HStack {
+                        Text("Rp")
+                        
+                        TextField("Jumlah Pinjaman", text: $borrowed)
+                    }
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    
+                    Rectangle()
+                        .frame(height: 1, alignment: .bottom)
+                        .foregroundColor(.primaryGreen)
+                    
+                    HStack {
+                        Text("Maksimum Limit Pinjaman")
+                        Spacer()
+                        Text("Rp. 60.000.000")
+                    }
+                    .font(.caption)
+                    
+                }
+                
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            
+            Rectangle()
+                .frame(height: 1, alignment: .bottom)
+                .foregroundColor(Color(.lightGray))
+            
+            Spacer()
+            
+            VStack {
+                
+                VStack {
+                    
+                    Grid(alignment: .center, horizontalSpacing: 50, verticalSpacing: 20){
+                        GridRow{
+                            constructButton(text: "1")
+                            
+                            constructButton(text: "2")
+                            
+                            constructButton(text: "3")
+                        }
+                        
+                        GridRow {
+                            constructButton(text: "4")
+                            
+                            constructButton(text: "5")
+                            
+                            constructButton(text: "6")
+                        }
+                        
+                        GridRow {
+                            constructButton(text: "7")
+                            
+                            constructButton(text: "8")
+                            
+                            constructButton(text: "9")
+                        }
+                        
+                        GridRow {
+                            constructButton(text: "0")
+                            
+                            constructButton(text: "000")
+                            
+                            Button {
+                                if borrowed != ""{
+                                    borrowed.removeLast()
+                                }
+                            } label: {
+                                Image(systemName: "delete.left")
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        }
+                    }
+                    
+                    Button {
+                        showSiPlinPinjam.toggle()
+                        showSiPlinPengeluaran.toggle()
+                    }label: {
+                        Text("Lanjut")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                            .background(.primaryGreen)
+                            .cornerRadius(14)
+                            .foregroundColor(.white)
+                            .font(.footnote)
+                            .fontWeight(.bold)
+                        
+                    }
+                    .padding(.horizontal, 35)
+                    .padding(.top, 30)
+                }
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundColor(.black)
+                .frame(height: 320)
+                
+            }
+            .padding(.vertical, 40)
+            .padding(.horizontal, 30)
+            
+            Spacer()
+            
+        }
+    }
+    
+    func constructButton(text: String) -> some View{
+        Text(text)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.white)
+        .onTapGesture {
+            borrowed = borrowed + text
+        }
+    }
 }

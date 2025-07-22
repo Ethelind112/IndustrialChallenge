@@ -156,6 +156,15 @@ struct ContentView: View {
         //        6 bulan
         var pinjaman6Bulan = (budget * 6) / (1 + 0.001*6*30 + 0.1 + 0.043)
         
+        let biayaLayanan = pinjaman6Bulan*0.2
+        let PPn = pinjaman6Bulan*0.043
+        let bungaTotal = pinjaman6Bulan*0.001*6*30
+        let cicilanPerBulan = bungaTotal/6
+        
+        let totalBayar = pinjaman6Bulan + bungaTotal + biayaLayanan + PPn
+        
+        resultNegative.append(pinjaman(totalPinjaman: pinjaman6Bulan, biayaLayanan: biayaLayanan, PPn: PPn, totalYangDibayar: totalBayar, cicilanPerBulan: cicilanPerBulan))
+        
         //        9 bulan
         var pinjaman9Bulan = (budget * 9) / (1 + 0.001*9*30 + 0.1 + 0.043)
         
