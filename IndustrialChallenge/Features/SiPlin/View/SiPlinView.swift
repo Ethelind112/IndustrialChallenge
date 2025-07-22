@@ -15,28 +15,28 @@ enum SiPlinStep {
 
 struct SiPlinView: View {
     
-    @State var income: String = "10000000"
-    @State var borrowed: String = "9000000"
+    @State var income: String
+    @State var borrowed: String
     @State var expense: String = ""
     
     @StateObject var viewModel: SiPlinController
-    
     
     @State var currSiPlinStep = SiPlinStep.siPlinBorrowing
     
     init(income: String, borrowed: String) {
         let expense = ""
+        let formattedIncome = income.formatAsDecimal()
+        let formattedBorrowed = borrowed.formatAsDecimal()
         
-        self.income = income
-        self.borrowed = borrowed
+        self.income = formattedIncome
+        self.borrowed = formattedBorrowed
         self.expense = expense
-        _viewModel = StateObject(wrappedValue: SiPlinController(income: income, borrowed: borrowed, expense: expense))
+        _viewModel = StateObject(wrappedValue: SiPlinController(income: formattedIncome, borrowed: formattedBorrowed, expense: expense))
         
         self.currSiPlinStep = SiPlinStep.siPlinBorrowing
     }
     
     var body: some View {
-        
         switch currSiPlinStep {
         case .siPlinBorrowing:
             BorrowingNeedSheet(borrowed: $viewModel.borrowed, currSiPlinStep: $currSiPlinStep)

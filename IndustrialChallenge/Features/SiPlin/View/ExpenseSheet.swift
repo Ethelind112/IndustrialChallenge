@@ -11,6 +11,7 @@ struct ExpenseSheet: View {
     
     @ObservedObject var viewModel: SiPlinController
     @Binding var currSiPlinStep: SiPlinStep
+    @State var computation: String = ""
     
     var body: some View {
         NavigationView {
@@ -74,14 +75,20 @@ struct ExpenseSheet: View {
                     
                     VStack (alignment: .leading) {
                         
+                        
                         Text("Pengeluaranmu per bulan berapa?")
                             .fontWeight(.bold)
                             .font(.callout)
+                        
+                        Text(computation)
+                            .font(.caption)
+                            .foregroundColor(.gray)
                         
                         HStack {
                             Text("Rp")
                             
                             TextField("Pengeluaran", text: $viewModel.expense)
+                                .disabled(true)
                         }
                         .font(.title3)
                         .fontWeight(.bold)
@@ -103,7 +110,7 @@ struct ExpenseSheet: View {
                     
                     VStack {
                         
-                        NumberKeyboard(inputs: $viewModel.expense)
+                        Calculator(inputs: $viewModel.expense, computation: $computation)
                         
                         Button {
                           
@@ -124,7 +131,7 @@ struct ExpenseSheet: View {
                     .font(.title3)
                     .fontWeight(.bold)
                     .foregroundColor(.black)
-                    .frame(height: 320)
+                    .frame(height: 300)
                     
                 }
                 .padding(.vertical, 40)
@@ -132,4 +139,12 @@ struct ExpenseSheet: View {
             }
         }
     }
+}
+
+#Preview {
+    @Previewable @State var currSiPlinStep = SiPlinStep.siPlinBorrowing
+    
+    @Previewable @StateObject var viewModel: SiPlinController = SiPlinController(income: "10000000", borrowed: "9000000", expense: "4000000")
+    
+    ExpenseSheet(viewModel: viewModel, currSiPlinStep: $currSiPlinStep)
 }

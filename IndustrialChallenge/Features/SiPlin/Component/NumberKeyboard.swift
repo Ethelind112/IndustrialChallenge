@@ -44,6 +44,7 @@ struct NumberKeyboard: View {
                 Button {
                     if inputs != ""{
                         inputs.removeLast()
+                        inputs = inputs.formatAsDecimal()
                     }
                 } label: {
                     Image(systemName: "delete.left")
@@ -55,18 +56,10 @@ struct NumberKeyboard: View {
     
     func constructButton(text: String) -> some View{
         Text(text)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.white)
-        .onTapGesture {
-            inputs = inputs + text
-        }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.white)
+            .onTapGesture {
+                inputs = (inputs + text).formatAsDecimal()
+            }
     }
-    
-//    init(inputs: String) {
-//        self.inputs = inputs
-//    }
 }
-
-//#Preview {
-//    NumberKeyboard(inputs: "9000000")
-//}
