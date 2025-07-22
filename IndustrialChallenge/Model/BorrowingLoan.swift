@@ -9,14 +9,40 @@ import Foundation
 
 class BorrowingLoan {
     var tenor: Int
-    var cicilanPerBulan: Double
-    var totalCicilan: Double
-    var jumlahDiterima: Double
-    var bunga: Double
-    var biayaLayanan: Double
-    var PPn: Double
+    var cicilanPerBulan: String
+    var totalCicilan: String
+    var jumlahDiterima: String
+    var bunga: String
+    var biayaLayanan: String
+    var PPn: String
     
-    init(tenor: Int, cicilanPerBulan: Double, totalCicilan: Double, jumlahDiterima: Double, bunga: Double, biayaLayanan: Double, PPn: Double) {
+    var cicilanPerBulanValue: Double {
+//        Double(cicilanPerBulan.replacingOccurrences(of: ",", with: "")) ?? 0
+        Double(cicilanPerBulan) ?? 0
+    }
+    
+    var totalCicilanValue: Double {
+        Double(totalCicilan) ?? 0
+    }
+    
+    var jumlahDiterimaValue: Double {
+        Double(jumlahDiterima) ?? 0
+    }
+    
+    var bungaValue: Double {
+        Double(bunga) ?? 0
+    }
+    
+    var biayaLayananValue: Double {
+        Double(biayaLayanan) ?? 0
+    }
+    
+    var PPnValue: Double {
+        Double(PPn) ?? 0
+    }
+    
+    
+    init(tenor: Int, cicilanPerBulan: String, totalCicilan: String, jumlahDiterima: String, bunga: String, biayaLayanan: String, PPn: String) {
         self.tenor = tenor
         self.cicilanPerBulan = cicilanPerBulan
         self.totalCicilan = totalCicilan
@@ -25,4 +51,6 @@ class BorrowingLoan {
         self.biayaLayanan = biayaLayanan
         self.PPn = PPn
     }
+    
+    
 }
