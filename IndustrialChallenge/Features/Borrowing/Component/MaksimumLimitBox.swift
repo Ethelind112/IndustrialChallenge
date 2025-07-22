@@ -13,25 +13,23 @@ struct MaksimumLimitBox: View {
         HStack{
             HStack(spacing: 12){
                 Text("Maksimum Limit")
-                    .font(.callout)
+                    .font(.system(size: 14))
                 Button {
                     showMaksimumLimitTooltip = true
                 }label: {
                     Image(systemName: "info.circle")
-                        .font(.callout).foregroundColor(Color("ToolTipBlue"))
+                        .font(.system(size: 12)).foregroundColor(Color("ToolTipBlue"))
                 }
                
                     
             }
             Spacer()
-            Text("Rp. 60.000.000,00")
-                    .font(.callout)
-        }.padding(.vertical, 22)
+            Text("Rp. 60.000.000,00").font(.system(size: 14))
+        }.padding(.vertical, 16)
             .padding(.horizontal, 16)
             .background(
                 RoundedRectangle(cornerRadius: 16)
                     .fill(Color.white)
-                    .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 4)
             )
             .padding(.horizontal, 12)
     }

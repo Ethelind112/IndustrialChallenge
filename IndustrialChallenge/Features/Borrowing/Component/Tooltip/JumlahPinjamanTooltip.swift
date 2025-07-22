@@ -17,7 +17,7 @@ struct JumlahPinjamanTooltip: View {
                 Button(action: {
                     isPresented = false
                 }) {
-                    Image(systemName: "xmark.circle.fill")
+                    Image(systemName: "xmark")
                         .font(.title2)
                         .foregroundColor(.gray)
                 }

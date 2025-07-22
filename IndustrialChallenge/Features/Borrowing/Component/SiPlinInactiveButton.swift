@@ -12,14 +12,14 @@ struct SiPlinInactiveButton : View{
         HStack(spacing: 0){
             Image("rounded-siplin").resizable().frame(width: 65, height: 55)
             VStack(alignment: .leading, spacing: 4){
-                Text("Bingung menentukan jumlah pinjaman?").font(.system(size: 14)).fontWeight(.semibold)
+                Text("Bingung menentukan jumlah pinjaman?").font(.system(size: 13)).fontWeight(.semibold)
                (
                 Text("Gunakan rekomendasi ") + Text("SiPlin").fontWeight(.semibold)
-               ).font(.callout).foregroundColor(Color("DarkGreen"))
+               ).font(.system(size: 14)).foregroundColor(Color("DarkGreen"))
             }
             Spacer()
         }
-        .padding(.vertical, 16)
+        .padding(.vertical, 12)
         .padding(.horizontal, 16)
         .background(
                    LinearGradient(
@@ -31,7 +31,7 @@ struct SiPlinInactiveButton : View{
                        endPoint: .trailing
                    )
                    .cornerRadius(16)
-                   .shadow(color: Color(red: 213/255, green: 243/255, blue: 219/255), radius: 10, x: 0, y: 4)
+                   
                )
             .padding(.horizontal, 12)
     }

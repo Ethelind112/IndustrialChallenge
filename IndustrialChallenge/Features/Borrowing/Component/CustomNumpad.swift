@@ -38,24 +38,11 @@ struct CustomNumpad: View {
                     } label: {
                         Image(systemName: "delete.left")
                             .frame(width: 60, height: 60)
-                            .background(Color.red.opacity(0.1))
-                            .cornerRadius(8)
                     }
                 }
             }
 
-            Button {
-                print("Lanjut pressed with input: \(input)")
-            } label: {
-                Text("Lanjut")
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-                    .background(Color.green)
-                    .cornerRadius(14)
-                    .foregroundColor(.white)
-                    .font(.footnote)
-                    .fontWeight(.bold)
-            }
+           
             .padding(.horizontal, 35)
             .padding(.top, 20)
         }
@@ -67,24 +54,15 @@ struct CustomNumpad: View {
         Button {
             if isTripleZero {
                 input += "000"
-                input = formatThousandSeparator(input)
             } else {
                 input += text
             }
         } label: {
             Text(text)
+                .fontWeight(.bold)
                 .frame(width: 60, height: 60)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(8)
         }
     }
 
-    func formatThousandSeparator(_ raw: String) -> String {
-        let rawNumber = raw.replacingOccurrences(of: ".", with: "")
-        let number = Int(rawNumber) ?? 0
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.groupingSeparator = "."
-        return formatter.string(from: NSNumber(value: number)) ?? raw
-    }
+   
 }

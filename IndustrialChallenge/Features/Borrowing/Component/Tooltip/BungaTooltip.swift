@@ -33,7 +33,7 @@ struct BungaTooltip: View {
                     .padding(.top, 4)
 
                 Text("Bunga harian 0.3% dihitung dari jumlah pinjaman kamu setiap hari selama tenor. Jumlah ini otomatis masuk ke total cicilan per bulan.")
-                    .font(.body)
+                    .font(.callout)
             }
             
             VStack(alignment: .leading, spacing: 12){
@@ -43,7 +43,7 @@ struct BungaTooltip: View {
                     .padding(.top, 4)
 
                 Text("Biaya administrasi atau operasional dari penyedia layanan pinjaman. Biaya ini otomatis masuk ke total cicilan per bulan.")
-                    .font(.body)
+                    .font(.callout)
             }
             
             VStack( alignment: .leading, spacing: 12){
@@ -53,7 +53,7 @@ struct BungaTooltip: View {
                     .padding(.top, 4)
 
                 Text("Pajak pertambahan nilai yang dikenakan atas biaya layanan dan bunga sesuai regulasi pemerintah. Biaya ini otomatis masuk ke total cicilan per bulan.")
-                    .font(.body)
+                    .font(.callout)
             }
 
            
