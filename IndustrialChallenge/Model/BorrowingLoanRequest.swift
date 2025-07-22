@@ -7,15 +7,28 @@
 
 import Foundation
 
-class BorrowingLoanRequest {
-    var expense: Double
-    var income: Double
-    var borrowingNeed: Double
-    var deficit: Bool {
-        expense > income
+class BorrowingLoanRequest: ObservableObject {
+    var expense: String
+    var income: String
+    var borrowingNeed: String
+    
+    var expenseValue: Double {
+        Double(expense) ?? 0
     }
     
-    init(expense: Double, income: Double, borrowingNeed: Double) {
+    var incomeValue: Double {
+        Double(income) ?? 0
+    }
+    
+    var borrowingNeedValue: Double {
+        Double(borrowingNeed) ?? 0
+    }
+    
+    var deficit: Bool {
+        expenseValue > incomeValue
+    }
+    
+    init(expense: String, income: String, borrowingNeed: String) {
         self.expense = expense
         self.income = income
         self.borrowingNeed = borrowingNeed

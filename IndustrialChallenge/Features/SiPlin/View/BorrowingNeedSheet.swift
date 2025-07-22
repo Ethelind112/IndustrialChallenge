@@ -86,6 +86,7 @@ struct BorrowingNeedSheet: View {
                             Text("Rp")
                             
                             TextField("Jumlah Pinjaman", text: $borrowed)
+                                .disabled(true)
                         }
                         .font(.title3)
                         .fontWeight(.bold)
@@ -139,7 +140,7 @@ struct BorrowingNeedSheet: View {
                     .font(.title3)
                     .fontWeight(.bold)
                     .foregroundColor(.black)
-                    .frame(height: 320)
+                    .frame(height: 300)
                     
                 }
                 .padding(.vertical, 40)

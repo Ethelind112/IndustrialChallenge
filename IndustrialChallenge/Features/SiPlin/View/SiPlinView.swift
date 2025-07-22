@@ -13,28 +13,36 @@ enum SiPlinStep {
     case siPlinRecommendation
 }
 
-
 struct SiPlinView: View {
     
-//    nanti binding
-    @State var income: String = "10000000"
-    @State var borrowed: String = "9000000"
+    @State var income: String
+    @State var borrowed: String
     @State var expense: String = ""
     
-    @State var showSiPlinBorrowing: Bool = true
-    @State var showSiPlinExpense: Bool = false
-    @State var showSiPlinRecommendation: Bool = false
+    @StateObject var viewModel: SiPlinController
     
     @State var currSiPlinStep = SiPlinStep.siPlinBorrowing
     
-    var body: some View {
+    init(income: String, borrowed: String) {
+        let expense = ""
+        let formattedIncome = income.formatAsDecimal()
+        let formattedBorrowed = borrowed.formatAsDecimal()
         
+        self.income = formattedIncome
+        self.borrowed = formattedBorrowed
+        self.expense = expense
+        _viewModel = StateObject(wrappedValue: SiPlinController(income: formattedIncome, borrowed: formattedBorrowed, expense: expense))
+        
+        self.currSiPlinStep = SiPlinStep.siPlinBorrowing
+    }
+    
+    var body: some View {
         switch currSiPlinStep {
         case .siPlinBorrowing:
-            BorrowingNeedSheet(borrowed: $borrowed, currSiPlinStep: $currSiPlinStep)
+            BorrowingNeedSheet(borrowed: $viewModel.borrowed, currSiPlinStep: $currSiPlinStep)
             
         case .siPlinExpense:
-            ExpenseSheet(expenses: $expense, borrowed: $borrowed, currSiPlinStep: $currSiPlinStep, income: $income)
+            ExpenseSheet(viewModel: viewModel, currSiPlinStep: $currSiPlinStep)
         case .siPlinRecommendation:
             Text("Recommendation")
         }
@@ -43,5 +51,5 @@ struct SiPlinView: View {
 }
 
 #Preview {
-    SiPlinView()
+    SiPlinView(income: "9000000", borrowed: "9000000")
 }
