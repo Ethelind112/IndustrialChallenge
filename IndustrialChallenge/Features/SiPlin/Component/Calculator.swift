@@ -69,8 +69,8 @@ struct Calculator: View {
                             
                             if let lastChar = computation.last, !operation.contains(String(lastChar)) {
                                 let calculationResult = evaluate(formatWithoutDot(computation))
-                                inputs = String(calculationResult ?? 0).formatAsDecimal()
-                                computation = computation.formatAsDecimal()
+                                inputs = String(calculationResult ?? 0).formatToRupiahStyle()
+                                computation = computation.formatToRupiahStyle()
                             }else {
                                 var result = computation
                                 result.removeLast()
@@ -80,7 +80,7 @@ struct Calculator: View {
                         
                     } else if inputs != ""{
                         inputs.removeLast()
-                        inputs = inputs.formatAsDecimal()
+                        inputs = inputs.formatToRupiahStyle()
                     }
                 } label: {
                     Image(systemName: "delete.left")
@@ -125,7 +125,7 @@ struct Calculator: View {
                     
                     let calculationResult = evaluate(formatWithoutDot(temp))
                     
-                    inputs = String(calculationResult ?? 0).formatAsDecimal()
+                    inputs = String(calculationResult ?? 0).formatToRupiahStyle()
                     
                     isComputation = true
                 }
@@ -133,13 +133,13 @@ struct Calculator: View {
                 let toCalculate = computation + text
                 let calculationResult = evaluate(formatWithoutDot(toCalculate))
                 
-                inputs = String(calculationResult ?? 0).formatAsDecimal()
+                inputs = String(calculationResult ?? 0).formatToRupiahStyle()
             }
             
             if !isComputation {
-                inputs = (inputs + text).formatAsDecimal()
+                inputs = (inputs + text).formatToRupiahStyle()
             } else {
-                computation = (computation + text).formatAsDecimal()
+                computation = (computation + text).formatToRupiahStyle()
             }
         }
     }

@@ -25,8 +25,8 @@ struct SiPlinView: View {
     
     init(income: String, borrowed: String) {
         let expense = ""
-        let formattedIncome = income.formatAsDecimal()
-        let formattedBorrowed = borrowed.formatAsDecimal()
+        let formattedIncome = income.formatToRupiahStyle()
+        let formattedBorrowed = borrowed.formatToRupiahStyle()
         
         self.income = formattedIncome
         self.borrowed = formattedBorrowed
