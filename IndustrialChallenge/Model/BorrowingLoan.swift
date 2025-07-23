@@ -17,7 +17,6 @@ class BorrowingLoan: ObservableObject {
     var PPn: String
     
     var cicilanPerBulanValue: Double {
-//        Double(cicilanPerBulan.replacingOccurrences(of: ",", with: "")) ?? 0
         Double(cicilanPerBulan) ?? 0
     }
     

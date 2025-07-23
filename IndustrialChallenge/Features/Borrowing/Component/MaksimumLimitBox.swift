@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MaksimumLimitBox: View {
     @Binding var showMaksimumLimitTooltip: Bool
+    var maximumLimit = formatToRupiahStyle(maximumLimitPinjaman)
     var body: some View {
         HStack{
             HStack(spacing: 12){
@@ -24,7 +25,7 @@ struct MaksimumLimitBox: View {
                     
             }
             Spacer()
-            Text("Rp. 60.000.000,00").font(.system(size: 14))
+            Text("Rp \(maximumLimit)").font(.system(size: 14))
         }.padding(.vertical, 16)
             .padding(.horizontal, 16)
             .background(

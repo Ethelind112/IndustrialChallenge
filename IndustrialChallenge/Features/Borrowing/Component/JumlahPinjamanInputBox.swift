@@ -11,6 +11,8 @@ struct JumlahPinjamanInputBox: View {
     @Binding var showJumlahPinjamanTooltipModal: Bool
     @Binding var showCustomNumpad: Bool
     @Binding var input: String
+    @Binding var showMaksimumLimitTooltip: Bool
+    var maximumLimit = formatToRupiahStyle(maximumLimitPinjaman)
     
     @State private var showAlert = false
 
@@ -29,11 +31,10 @@ struct JumlahPinjamanInputBox: View {
             }
 
             HStack {
-                Text("Rp.")
+                Text("Rp")
                     .font(.headline)
                     .foregroundColor(.black)
-
-                Text(input.isEmpty ? "1.000.000" : formatToRupiahStyle(input))
+                Text(input.isEmpty ? "10.000.000" : formatToRupiahStyle(input))
                     .font(.headline)
                     .foregroundColor(input.isEmpty ? .gray : .black)
                     .onTapGesture {
@@ -50,15 +51,37 @@ struct JumlahPinjamanInputBox: View {
                         .foregroundColor(.gray)
                 }
             }
-
             Divider().background(Color("PrimaryGreen"))
+            HStack{
+                HStack(spacing: 12){
+                    Text("Maksimum Limit")
+                        .font(.system(size: 14))
+                    Button {
+                        showMaksimumLimitTooltip = true
+                    }label: {
+                        Image(systemName: "info.circle")
+                            .font(.system(size: 12)).foregroundColor(Color("ToolTipBlue"))
+                    }
+                   
+                        
+                }
+                Spacer()
+                Text("Rp \(maximumLimit)").font(.system(size: 14))
+            }
+
+            
         }
-        .padding(.vertical, 16)
+        .padding(.vertical, 18)
         .padding(.horizontal, 16)
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.white)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color("AdditionalColorLightGray"), lineWidth: 1)
+                )
         )
+
         .padding(.horizontal, 12)
         .alert(isPresented: $showAlert) {
             Alert(
@@ -69,8 +92,8 @@ struct JumlahPinjamanInputBox: View {
         }
         .onChange(of: input) { newValue in
             let clean = newValue.filter { $0.isNumber }
-            if let intVal = Int(clean), intVal > 60000000 {
-                input = "60000000" // Set max
+            if let intVal = Int(clean), intVal > maximumLimitPinjamanInt {
+                input = maximumLimitPinjaman
                 showAlert = true
             }
         }
@@ -78,17 +101,3 @@ struct JumlahPinjamanInputBox: View {
 }
 
 
-func formatToRupiahStyle(_ input: String) -> String {
-    // Remove any non-digit characters
-    let cleanInput = input.filter { $0.isNumber }
-
-    // Convert to number
-    guard let number = Int(cleanInput) else { return input }
-
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .decimal
-    formatter.groupingSeparator = "."
-    formatter.locale = Locale(identifier: "id_ID")
-
-    return formatter.string(from: NSNumber(value: number)) ?? input
-}
