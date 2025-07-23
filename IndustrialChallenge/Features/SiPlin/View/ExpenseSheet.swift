@@ -45,7 +45,7 @@ struct ExpenseSheet: View {
                     
                     VStack {
                         
-                        Calculator(inputs: $viewModel.expense, computation: $computation)
+                        Calculator(inputs: $viewModel.loanRequest.expense, computation: $computation)
                             .padding(.horizontal, 30)
                         
                         Button {

@@ -90,7 +90,7 @@ struct RecommendationSheet: View {
                 }
                 
                 Button{
-                    siPlinModel.loanRequest.expense = "0"
+                    siPlinModel.loanRequest.expense = ""
                     siPlinModel.loanRequest.borrowingNeed = borrowed
                     siPlinModel.loanRequest.income = income
                     currsiPlinStep = .siPlinBorrowing

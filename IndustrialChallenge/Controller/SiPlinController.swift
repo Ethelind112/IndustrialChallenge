@@ -8,17 +8,21 @@
 import Foundation
 
 class SiPlinController: ObservableObject {
-    @Published var income: String
-    @Published var borrowed: String
-    @Published var expense: String
+    @Published var loanRequest: BorrowingLoanRequest
     
-    var loanRequest: BorrowingLoanRequest {
-        BorrowingLoanRequest(expense: expense, income: income, borrowingNeed: borrowed)
+    var income: String {
+        loanRequest.income
+    }
+    
+    var borrowed: String {
+        loanRequest.borrowingNeed
+    }
+    
+    var expense: String {
+        loanRequest.expense
     }
     
     init(income: String, borrowed: String, expense: String) {
-        self.income = income
-        self.borrowed = borrowed
-        self.expense = expense
+        self.loanRequest = BorrowingLoanRequest(expense: expense, income: income, borrowingNeed: borrowed)
     }
 }

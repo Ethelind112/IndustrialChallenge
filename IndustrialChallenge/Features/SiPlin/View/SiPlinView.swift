@@ -39,7 +39,7 @@ struct SiPlinView: View {
     var body: some View {
         switch currSiPlinStep {
         case .siPlinBorrowing:
-            BorrowingNeedSheet(borrowed: $viewModel.borrowed, currSiPlinStep: $currSiPlinStep)
+            BorrowingNeedSheet(borrowed: $viewModel.loanRequest.borrowingNeed, currSiPlinStep: $currSiPlinStep)
             
         case .siPlinExpense:
             ExpenseSheet(viewModel: viewModel, currSiPlinStep: $currSiPlinStep)
