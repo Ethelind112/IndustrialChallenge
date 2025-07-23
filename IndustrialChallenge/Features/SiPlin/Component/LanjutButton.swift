@@ -10,7 +10,7 @@ import SwiftUI
 struct LanjutButton: View {
     var body: some View {
         
-        Text("Konfirmasi")
+        Text("Lanjut")
             .font(.headline)
             .fontWeight(.bold)
             .foregroundColor(.white)

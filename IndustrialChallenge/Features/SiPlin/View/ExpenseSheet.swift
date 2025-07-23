@@ -39,7 +39,7 @@ struct ExpenseSheet: View {
                 
                 Rectangle()
                     .frame(height: 1, alignment: .bottom)
-                    .foregroundColor(Color(.lightGray))
+                    .foregroundColor(Color("AdditionalColorLightGray"))
                 
                 VStack {
                     
@@ -49,7 +49,7 @@ struct ExpenseSheet: View {
                             .padding(.horizontal, 30)
                         
                         Button {
-                            
+                            currSiPlinStep = .siPlinRecommendation
                         } label: {
                             LanjutButton()
                                 .padding(.top, 30)

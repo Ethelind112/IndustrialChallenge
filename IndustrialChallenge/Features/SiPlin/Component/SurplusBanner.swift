@@ -18,17 +18,19 @@ struct SurplusBanner: View {
                         
                     VStack {
                         Text("Dengan surplus dana per bulan sebesar ") + Text("Rp\(surplus)").bold() + Text(", kamu dapat memilih opsi tenor pinjaman sesuai kenyamananmu.")
-                        
                     }
                     .font(.caption)
+                    
+                    Spacer()
                 }
+                
                 
             }
         }
         .padding([.top, .trailing], 15)
+        .frame(maxWidth: .infinity)
         .background(.secondaryLightestYellow)
         .cornerRadius(8)
-        
     }
 }
 

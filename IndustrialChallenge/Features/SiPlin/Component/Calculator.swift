@@ -70,7 +70,7 @@ struct Calculator: View {
                             if let lastChar = computation.last, !operation.contains(String(lastChar)) {
                                 let calculationResult = evaluate(formatWithoutDot(computation))
                                 inputs = String(calculationResult ?? 0).formatToRupiahStyle()
-                                computation = computation.formatToRupiahStyle()
+                                computation = computation.formatAsDecimal()
                             }else {
                                 var result = computation
                                 result.removeLast()
@@ -139,7 +139,7 @@ struct Calculator: View {
             if !isComputation {
                 inputs = (inputs + text).formatToRupiahStyle()
             } else {
-                computation = (computation + text).formatToRupiahStyle()
+                computation = (computation + text).formatAsDecimal()
             }
         }
     }

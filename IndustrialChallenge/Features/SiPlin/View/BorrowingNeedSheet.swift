@@ -37,7 +37,7 @@ struct BorrowingNeedSheet: View {
                 
                 Rectangle()
                     .frame(height: 1, alignment: .bottom)
-                    .foregroundColor(Color(.lightGray))
+                    .foregroundColor(Color("AdditionalColorLightGray"))
                 
                 Spacer()
                 

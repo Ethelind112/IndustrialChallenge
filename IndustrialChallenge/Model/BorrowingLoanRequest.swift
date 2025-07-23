@@ -13,15 +13,15 @@ class BorrowingLoanRequest: ObservableObject {
     var borrowingNeed: String
     
     var expenseValue: Double {
-        Double(expense) ?? 0
+        Double(expense.formatWithoutDot()) ?? 0
     }
     
     var incomeValue: Double {
-        Double(income) ?? 0
+        Double(income.formatWithoutDot()) ?? 0
     }
     
     var borrowingNeedValue: Double {
-        Double(borrowingNeed) ?? 0
+        Double(borrowingNeed.formatWithoutDot()) ?? 0
     }
     
     var deficit: Bool {

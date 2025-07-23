@@ -21,7 +21,6 @@ struct RecommendationViewButton: View {
             .padding(.vertical, 15)
             .background(backgroundColor)
             .cornerRadius(12)
-            .padding(.horizontal, 22)
     }
 }
 

@@ -44,7 +44,7 @@ struct SiPlinView: View {
         case .siPlinExpense:
             ExpenseSheet(viewModel: viewModel, currSiPlinStep: $currSiPlinStep)
         case .siPlinRecommendation:
-            Text("Recommendation")
+            RecommendationSheet(currsiPlinStep: $currSiPlinStep, borrowingRequest: viewModel.loanRequest, income: income, borrowed: borrowed, siPlinModel: viewModel)
         }
         
     }

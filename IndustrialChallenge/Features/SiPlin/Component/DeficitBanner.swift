@@ -21,11 +21,14 @@ struct DeficitBanner: View {
                         
                     }
                     .font(.caption)
+                    
+                    Spacer()
                 }
                 
             }
         }
         .padding([.top, .trailing], 15)
+        .frame(maxWidth: .infinity)
         .background(.redWarning)
         .cornerRadius(8)
         
