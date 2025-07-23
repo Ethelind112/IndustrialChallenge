@@ -9,11 +9,12 @@ import SwiftUI
 
 struct HeaderExpense: View {
     @Binding var currSiPlinStep: SiPlinStep
+    var title: String = ""
     
     var body: some View {
         ZStack (alignment: .leading) {
             VStack {
-                Text("Isi Pengeluaranmu")
+                Text(title)
                     .font(.body)
                     .fontWeight(.bold)
                 

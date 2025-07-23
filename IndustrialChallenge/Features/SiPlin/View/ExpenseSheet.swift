@@ -18,7 +18,7 @@ struct ExpenseSheet: View {
             VStack {
                 VStack {
                     
-                    HeaderExpense(currSiPlinStep: $currSiPlinStep)
+                    HeaderExpense(currSiPlinStep: $currSiPlinStep, title: "Isi Pengeluaranmu")
                     
                     Spacer()
                     
