@@ -21,7 +21,7 @@ struct KuponComponent: View {
                 Button{
                     showKuponModal = true
                 }label:{
-                    Image(systemName: "chevron.right")
+                    Image(systemName: "chevron.right").foregroundStyle(Color.black)
                 }
             }
         }.padding(.vertical, 16)
@@ -29,6 +29,10 @@ struct KuponComponent: View {
             .background(
                 RoundedRectangle(cornerRadius: 16)
                     .fill(Color.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color("AdditionalColorLightGray"), lineWidth: 1)
+                    )
             )
             .padding(.horizontal, 12)
     }

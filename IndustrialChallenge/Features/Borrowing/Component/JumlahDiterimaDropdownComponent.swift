@@ -9,6 +9,8 @@ import SwiftUI
 
 struct JumlahDiterimaDropdownComponent: View {
     @State private var isExpanded = false
+    let jumlahDiterima: String
+    let jumlahPengajuan: String
 
     var body: some View {
         VStack(spacing: 0) {
@@ -23,7 +25,7 @@ struct JumlahDiterimaDropdownComponent: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
                     Spacer()
-                    Text("Rp 6.000.000,00")
+                    Text("Rp. " + formatToRupiahStyle(jumlahDiterima))
                         .font(.system(size: 14))
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
@@ -31,8 +33,14 @@ struct JumlahDiterimaDropdownComponent: View {
                         .foregroundColor(.black)
                 }
                 .padding()
-                .background(Color.white)
-                .clipShape(RoundedCorner(radius: 12, corners: [.topLeft, .topRight]))
+                .background(
+                    RoundedCorner(radius: 16, corners: [.topLeft, .topRight])
+                        .fill(Color.white)
+                        .overlay(
+                            RoundedCorner(radius: 16, corners: [.topLeft, .topRight])
+                                .stroke(Color("AdditionalColorLightGray"), lineWidth: 1)
+                        )
+                )
             }
 
             if isExpanded {
@@ -41,7 +49,7 @@ struct JumlahDiterimaDropdownComponent: View {
                         Text("Jumlah Pengajuan")
                             .font(.system(size: 14))
                         Spacer()
-                        Text("Rp 6.000.000,00")
+                        Text("Rp. " + formatToRupiahStyle(jumlahDiterima))
                             .font(.system(size: 14))
                             .fontWeight(.semibold)
                             .foregroundColor(Color("PrimaryGreen"))
@@ -49,7 +57,15 @@ struct JumlahDiterimaDropdownComponent: View {
                     
                 }
                 .padding()
-                .background(Color.white)
+                .background(
+                    RoundedCorner(radius: 16, corners: [.bottomLeft, .bottomRight])
+                        .fill(Color.white)
+                        .overlay(
+                            RoundedCorner(radius: 16, corners: [.bottomLeft, .bottomRight])
+                                .stroke(Color("AdditionalColorLightGray"), lineWidth: 1)
+                        )
+                )
+                .padding(.top, -8)
                 
             }
         }

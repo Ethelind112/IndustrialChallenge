@@ -6,84 +6,118 @@
 //
 
 import SwiftUI
-
-struct DurasiTenorComponent : View{
+struct DurasiTenorComponent: View {
     @Binding var showDurasiTenorTooltipModal: Bool
-    
-    var body: some View{
-        VStack(alignment: .leading, spacing: 16){
-           HStack{
-               HStack{
-                   Text("Durasi Tenor").font(.callout).fontWeight(.semibold)
-                   Button {
-                       showDurasiTenorTooltipModal = true
-                                   } label: {
-                                       Image(systemName: "info.circle")
-                                           .font(.system(size: 12))
-                                           .foregroundColor(Color("ToolTipBlue"))
-                                   }
-               }
-              
-               Spacer()
-               Text("1x cicilan per bulan").font(.system(size: 14)).fontWeight(.medium)
-           }
-            HStack{
-                DurasiTenorButton(month: 3)
+    let options: [LoanOption]
+    @Binding var selectedOption: LoanOption
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                Text("Durasi Tenor").font(.callout).fontWeight(.semibold)
+                Button {
+                    showDurasiTenorTooltipModal = true
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.system(size: 12))
+                        .foregroundColor(Color("ToolTipBlue"))
+                }
+
                 Spacer()
-                DurasiTenorButton(month: 6)
-                Spacer()
-                DurasiTenorButton(month: 9, isActive: true)
+                Text("1x cicilan per bulan")
+                    .font(.system(size: 14))
+                    .fontWeight(.medium)
             }
-            VStack(alignment: .leading){
-                Text("Wah, 90% orang memilih ini! Lebih Hemat!")
-                    .padding(.horizontal, 16)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.caption2)
-                    .foregroundColor(Color.white)
-                    .padding(.vertical, 8)
-                    .foregroundStyle(Color.white)
-                    .background(Color("SecondaryGreen"))
-                    .cornerRadius(8)
-                
-                
+
+            HStack {
+                ForEach(options, id: \.tenorInMonths) { option in
+                    if option.tenorInMonths == 12{
+                        DurasiTenorButton(
+                            month: option.tenorInMonths,
+                            isActive: selectedOption == option,
+                            isBest: true
+                        ) {
+                            selectedOption = option
+                        }
+
+                        if option != options.last {
+                            Spacer()
+                        }
+                    }else{
+                        DurasiTenorButton(
+                            month: option.tenorInMonths,
+                            isActive: selectedOption == option,
+                            isBest: false
+                        ) {
+                            selectedOption = option
+                        }
+
+                        if option != options.last {
+                            Spacer()
+                        }
+                    }
+                    
+                }
             }
+
+            Text("Wah, 90% orang memilih ini! Lebih Hemat!")
+                .font(.caption2)
+                .foregroundColor(.white)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(Color("SecondaryGreen"))
+                .cornerRadius(8)
         }
         .padding(.vertical, 22)
         .padding(.horizontal, 16)
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.white)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color("AdditionalColorLightGray"), lineWidth: 1)
+                )
         )
         .padding(.horizontal, 12)
     }
 }
+struct DurasiTenorButton: View {
+    let month: Int
+    let isActive: Bool
+    let isBest: Bool
+    let onTap: () -> Void
 
-
-struct DurasiTenorButton : View{
-    @State var month : Int
-    @State var isActive: Bool = false
-    var body: some View{
-        if isActive{
-            Text("\(month) bulan")
-                .font(.system(size: 13))
-                .foregroundStyle(.white)
-                .padding(.horizontal, 27)
-                .padding(.vertical, 8)
-                .background(Color("SecondaryGreen"))
-                .cornerRadius(8)
-                
+    var body: some View {
+        if isBest{
+            ZStack{
+                Text("\(month) bulan")
+                    .font(.system(size: 13))
+                    .foregroundColor(isActive ? .white : .black)
+                    .padding(.horizontal, 27)
+                    .padding(.vertical, 8)
+                    .background(isActive ? Color("SecondaryGreen") : Color("PrimaryLightGreen"))
+                    .cornerRadius(8)
+                    .onTapGesture {
+                        onTap()
+                    }
+                Image("best-option-star")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 16)
+                    .offset(x: 40, y: -16)
+            }
             
         }else{
             Text("\(month) bulan")
                 .font(.system(size: 13))
+                .foregroundColor(isActive ? .white : .black)
                 .padding(.horizontal, 27)
                 .padding(.vertical, 8)
-                .background(
-                    Color("PrimaryLightGreen")
-                )
+                .background(isActive ? Color("SecondaryGreen") : Color("PrimaryLightGreen"))
                 .cornerRadius(8)
-                
-            
+                .onTapGesture {
+                    onTap()
+                }
         }
         
     }
