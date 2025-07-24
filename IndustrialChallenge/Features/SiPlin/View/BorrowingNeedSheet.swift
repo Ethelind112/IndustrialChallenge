@@ -43,6 +43,7 @@ struct BorrowingNeedSheet: View {
                         Spacer()
                         
                         KetahuiSiPlin()
+                            .shadow(color: Color.black.opacity(0.25), radius: 3.5, x: 0, y: 4)
                         
                         Spacer()
                         
@@ -85,6 +86,7 @@ struct BorrowingNeedSheet: View {
                         .frame(height: 300)
                         
                     }
+                    .padding(.horizontal, 20)
                     .padding(.vertical, 40)
                     
                     Spacer()

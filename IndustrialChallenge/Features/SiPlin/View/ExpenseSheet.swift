@@ -65,7 +65,7 @@ struct ExpenseSheet: View {
                         VStack {
                             
                             Calculator(inputs: $viewModel.loanRequest.expense, computation: $computation)
-                                .padding(.horizontal, 30)
+                                .padding(.horizontal, 20)
                             
                             Button {
                                 currSiPlinStep = .siPlinRecommendation
@@ -89,6 +89,7 @@ struct ExpenseSheet: View {
                         .foregroundColor(.black)
                         .frame(height: 300)
                     }
+                    .padding(.horizontal, 20)
                     .padding(.vertical, 40)
                     
                 }

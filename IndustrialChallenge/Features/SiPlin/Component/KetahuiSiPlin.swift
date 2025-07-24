@@ -14,13 +14,15 @@ struct KetahuiSiPlin: View {
             
         }label: {
             HStack {
-                Image("StatusBarIcon")
+                Image(systemName: "hand.tap")
+                    .font(.title)
+                    .padding(.trailing, 10)
                 
                 Text("Ketahui SiPlin Disini")
-                    .foregroundColor(.primaryGreen)
                     .font(.caption)
                     .fontWeight(.medium)
             }
+            .foregroundColor(.primaryGreen)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 20)
@@ -37,8 +39,11 @@ struct KetahuiSiPlin: View {
             )
             .clipShape(RoundedRectangle(cornerRadius: 3.5))
         )
-        .border(.primaryGreen, width: 0.44)
         .cornerRadius(3.5)
+        .overlay(
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(.primaryGreen, lineWidth: 0.44)
+        )
     }
 }
 

@@ -13,16 +13,14 @@ struct LanjutButton: View {
     @State var backgroundColor: Color
     
     var body: some View {
-        
         Text("Lanjut")
             .font(.headline)
             .fontWeight(.bold)
             .foregroundColor(textColor)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 24)
+            .padding(.vertical, 15)
             .background(backgroundColor)
             .cornerRadius(12)
-            .padding(.horizontal, 22)
     }
 }
 
