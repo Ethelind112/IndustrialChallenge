@@ -16,6 +16,12 @@ struct BorrowingView: View {
     @State private var showCustomNumpad = false
     @State private var showKuponModal = false
     @State private var showSiPlinModal = false
+    @State private var showToast = false
+    @State private var toastMessage = ""
+    @State private var toastType: ToastType = .warning
+
+    let headerHeight: CGFloat = 135
+
     
     @State private var borrowingLoan: BorrowingLoan = BorrowingController().hitungPinjaman(
         jumlahDiterima: Double(defaultBorrowingValue) ?? 0,
