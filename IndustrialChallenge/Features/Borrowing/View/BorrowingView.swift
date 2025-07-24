@@ -16,6 +16,9 @@ struct BorrowingView: View {
     @State private var showCustomNumpad = false
     @State private var showKuponModal = false
     @State private var showSiPlinModal = false
+    @State private var showToast = false
+    @State private var toastMessage = ""
+    @State private var toastType: ToastType = .warning
 
     let headerHeight: CGFloat = 135
 
@@ -23,7 +26,18 @@ struct BorrowingView: View {
         ZStack(alignment: .top) {
             // MARK: - White Scrollable Background
             Color.white.ignoresSafeArea()
-
+            if showToast {
+                ToastView(type: toastType, message: toastMessage)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .zIndex(999)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            withAnimation {
+                                showToast = false
+                            }
+                        }
+                    }
+            } 
             // MARK: - Scrollable Content
             ScrollView {
                 VStack(spacing: 16) {
@@ -33,6 +47,12 @@ struct BorrowingView: View {
                             showCustomNumpad: $showCustomNumpad,
                             input: $jumlahPinjaman,
                             showMaksimumLimitTooltip: $showMaksimumLimitTooltipModal
+                            , showToastCallback: {
+                                type, message in
+                                toastType = type
+                                toastMessage = message
+                                showToast = true
+                            }
                         )
                     }
                     Button(action: {
@@ -174,3 +194,8 @@ struct BorrowingView: View {
     }
 }
 
+struct BorrowingView_Previews: PreviewProvider {
+    static var previews: some View {
+        BorrowingView()
+    }
+}

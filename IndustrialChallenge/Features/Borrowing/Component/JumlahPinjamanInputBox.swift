@@ -13,8 +13,7 @@ struct JumlahPinjamanInputBox: View {
     @Binding var input: String
     @Binding var showMaksimumLimitTooltip: Bool
     var maximumLimit = formatToRupiahStyle(maximumLimitPinjaman)
-    
-    @State private var showAlert = false
+    var showToastCallback: (ToastType, String) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -83,18 +82,11 @@ struct JumlahPinjamanInputBox: View {
         )
 
         .padding(.horizontal, 12)
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("Jumlah terlalu besar"),
-                message: Text("Maksimum jumlah pinjaman adalah Rp60.000.000"),
-                dismissButton: .default(Text("OK"))
-            )
-        }
         .onChange(of: input) { newValue in
             let clean = newValue.filter { $0.isNumber }
             if let intVal = Int(clean), intVal > maximumLimitPinjamanInt {
                 input = maximumLimitPinjaman
-                showAlert = true
+                showToastCallback(.warning, "Maksimum jumlah pinjaman adalah Rp60.000.000")
             }
         }
     }
