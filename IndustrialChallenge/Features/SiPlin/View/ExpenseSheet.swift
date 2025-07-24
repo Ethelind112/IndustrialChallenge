@@ -13,13 +13,14 @@ struct ExpenseSheet: View {
     @Binding var currSiPlinStep: SiPlinStep
     @State var computation: String = ""
     @State var showToast = false
+    @State var showToast2 = false
     
     var body: some View {
         NavigationView {
             
             ZStack (alignment: .top) {
                 
-                if showToast {
+                if showToast2 {
                     ToastView(type: .warning, message: "Pengeluaranmu tidak bisa minus")
                         .transition(.move(edge: .top).combined(with: .opacity))
                         .zIndex(999)
@@ -66,11 +67,22 @@ struct ExpenseSheet: View {
                                 .padding(.horizontal, 30)
                             
                             Button {
-                                currSiPlinStep = .siPlinRecommendation
+                                if Int(viewModel.expense.formatWithoutDot()) ?? 0 >= 0 {
+                                    currSiPlinStep = .siPlinRecommendation
+                                }
                             } label: {
-                                LanjutButton()
-                                    .padding(.top, 30)
+                                
+                                if Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0 {
+                                    LanjutButton(textColor: .gray, backgroundColor: .additionalColorLightGray)
+                                        .padding(.top, 30)
+                                } else {
+                                    LanjutButton(textColor: .white, backgroundColor: .primaryGreen)
+                                        .padding(.top, 30)
+                                }
+                                
+                                
                             }
+                            .disabled(Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0)
     //                        .padding(.top, 1)
                         }
                         .font(.title3)
@@ -84,9 +96,10 @@ struct ExpenseSheet: View {
                 .onChange(of: viewModel.expense) {
                     if Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0 {
                         showToast = true
-                        viewModel.loanRequest.expense = "0"
-                        computation = ""
                     }
+                }
+                .onChange(of: showToast) {
+                    showToast2 = showToast
                 }
             }
         }

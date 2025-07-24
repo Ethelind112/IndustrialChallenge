@@ -66,7 +66,7 @@ struct BorrowingNeedSheet: View {
                             Button {
                                 currSiPlinStep = .siPlinExpense
                             } label: {
-                                LanjutButton()
+                                LanjutButton(textColor: .white, backgroundColor: .primaryGreen)
                                     .padding(.top, 30)
                             }
     //                        .padding(.top)
