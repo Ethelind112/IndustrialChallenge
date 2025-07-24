@@ -15,6 +15,7 @@ struct BorrowingView: View {
     @State private var selectedLoanOption: LoanOption = loanOptions[2]
     @State private var showCustomNumpad = false
     @State private var showKuponModal = false
+    @State private var showSiPlinModal = false
 
     let headerHeight: CGFloat = 135
 
@@ -34,7 +35,11 @@ struct BorrowingView: View {
                             showMaksimumLimitTooltip: $showMaksimumLimitTooltipModal
                         )
                     }
-                    SiPlinInactiveButton()
+                    Button(action: {
+                        showSiPlinModal = true
+                    }) {
+                        SiPlinInactiveButton()
+                    }
                     DurasiTenorComponent(
                         showDurasiTenorTooltipModal: $showDurasiTenorTooltipModal,
                         options: loanOptions,
@@ -86,7 +91,6 @@ struct BorrowingView: View {
                            .opacity(0.2)
                            .offset(x: -140, y: 0)
                 }
-//                .frame(maxHeight: 135)
 
                 HStack {
                     Image(systemName: "arrow.left")
@@ -162,6 +166,10 @@ struct BorrowingView: View {
         .sheet(isPresented: $showCicilanTooltipModal) {
             RincianCicilanTooltip(isPresented: $showCicilanTooltipModal)
                 .presentationDetents([.height(600)])
+        }
+        .sheet(isPresented: $showSiPlinModal) {
+            SiPlinView(income: "6000000", borrowed: jumlahPinjaman)
+                .presentationDetents([.height(800)])
         }
     }
 }
