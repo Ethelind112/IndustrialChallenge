@@ -16,102 +16,155 @@ struct BorrowingView: View {
     @State private var showCustomNumpad = false
     @State private var showKuponModal = false
     @State private var showSiPlinModal = false
+    
+    @State private var borrowingLoan: BorrowingLoan = BorrowingController().hitungPinjaman(
+        jumlahDiterima: Double(defaultBorrowingValue) ?? 0,
+        option: loanOptions[2]
+    )
+    
+    var isAnySheetPresented: Bool {
+        showJumlahPinjamanTooltipModal ||
+        showMaksimumLimitTooltipModal ||
+        showDurasiTenorTooltipModal ||
+        showCicilanTooltipModal ||
+        showKuponModal ||
+        showSiPlinModal ||
+        showCustomNumpad
+    }
 
-    let headerHeight: CGFloat = 135
 
+    @State private var path = NavigationPath()
+    
+    let headerHeight: CGFloat = 120
+    
     var body: some View {
-        ZStack(alignment: .top) {
-            // MARK: - White Scrollable Background
-            Color.white.ignoresSafeArea()
+        NavigationStack(path: $path) {
+            ZStack(alignment: .bottom) {
+                Color.white.ignoresSafeArea()
 
-            // MARK: - Scrollable Content
-            ScrollView {
-                VStack(spacing: 16) {
-                    VStack {
-                        JumlahPinjamanInputBox(
-                            showJumlahPinjamanTooltipModal: $showJumlahPinjamanTooltipModal,
-                            showCustomNumpad: $showCustomNumpad,
-                            input: $jumlahPinjaman,
-                            showMaksimumLimitTooltip: $showMaksimumLimitTooltipModal
-                        )
-                    }
-                    Button(action: {
-                        showSiPlinModal = true
-                    }) {
-                        SiPlinInactiveButton()
-                    }
-                    DurasiTenorComponent(
-                        showDurasiTenorTooltipModal: $showDurasiTenorTooltipModal,
-                        options: loanOptions,
-                        selectedOption: $selectedLoanOption
-                    )
-                    KuponComponent(showKuponModal: $showKuponModal)
+                VStack(spacing: 0) {
+                    ScrollView {
+                        VStack(spacing: 16) {
+                            JumlahPinjamanInputBox(
+                                showJumlahPinjamanTooltipModal: $showJumlahPinjamanTooltipModal,
+                                showCustomNumpad: $showCustomNumpad,
+                                input: $jumlahPinjaman,
+                                showMaksimumLimitTooltip: $showMaksimumLimitTooltipModal
+                            )
 
+                            Button(action: {
+                                showSiPlinModal = true
+                            }) {
+                                SiPlinInactiveButton()
+                            }
+
+                            DurasiTenorComponent(
+                                showDurasiTenorTooltipModal: $showDurasiTenorTooltipModal,
+                                options: loanOptions,
+                                selectedOption: $selectedLoanOption
+                            )
+
+                            KuponComponent(showKuponModal: $showKuponModal)
+
+                            VStack(spacing: 0) {
+                                JumlahDiterimaDropdownComponent(
+                                    jumlahDiterima: jumlahPinjaman,
+                                    jumlahPengajuan: jumlahPinjaman
+                                )
+                                .padding(.bottom, -16)
+
+                                Divider()
+                                    .background(Color("PrimaryGreen"))
+                                    .padding(.horizontal, 16)
+
+                                CicilanDetailDropdownComponent(
+                                    showCicilanTooltipModal: $showCicilanTooltipModal,
+                                    borrowingLoan: $borrowingLoan,
+                                    loanOption: $selectedLoanOption
+                                )
+                                .padding(.top, -16)
+                            }
+                            .padding(.top, -16)
+
+                            Spacer().frame(height: 100)
+                        }
+                        .padding(.top, headerHeight - 48)
+                        .padding(.horizontal, 8)
+                    }
+                }
+
+                // Sticky Button
+                if !isAnySheetPresented {
                     VStack(spacing: 0) {
-                        JumlahDiterimaDropdownComponent(
-                            jumlahDiterima: jumlahPinjaman,
-                            jumlahPengajuan: jumlahPinjaman
-                        )
-                        .padding(.bottom, -16)
-
                         Divider()
-                            .background(Color("PrimaryGreen"))
-                            .padding(.horizontal, 16)
+                            .background(Color.gray.opacity(0.3))
 
-                        CicilanDetailDropdownComponent(
-                            showCicilanTooltipModal: $showCicilanTooltipModal,
-                            jumlahPinjaman: Double(jumlahPinjaman) ?? 0,
-                            selectedLoanOption: selectedLoanOption
+                        PrimaryButton {
+                            path.append(borrowingLoan)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 12)
+                        .padding(.bottom, 24)
+                        .background(
+                            Color.white.opacity(0.8)
+                                .blur(radius: 2)
+                                .edgesIgnoringSafeArea(.bottom)
                         )
-                        .padding(.top, -16)
                     }
-                    .padding(.top, -16)
-
-                    PrimaryButton()
                 }
-                .padding(.top, headerHeight-48)
-                .padding(.horizontal, 8)
+
+            }
+            .navigationDestination(for: BorrowingLoan.self) { loan in
+                SummaryView(borrowingLoan: loan, loanOption: selectedLoanOption)
+                    .navigationBarBackButtonHidden(true)
+                    .navigationBarHidden(true)
             }
 
-            // MARK: - Sticky Header
-            ZStack {
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(hex: "#D5F3DB"),
-                        Color(hex: "#7FF895")
-                    ]),
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-                VStack {
-                    Image("logo-ec-bg")
-                           .resizable()
-                           .aspectRatio(contentMode: .fit)
-                           .frame(width: 200)
-                           .opacity(0.2)
-                           .offset(x: -140, y: 0)
+            // Sticky Header
+            .overlay(
+                ZStack {
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(hex: "#D5F3DB"),
+                            Color(hex: "#7FF895")
+                        ]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+
+                    VStack {
+                        Image("logo-ec-bg")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 200)
+                            .opacity(0.2)
+                            .offset(x: -140)
+
+                        HStack {
+                            Image(systemName: "arrow.left")
+                                .foregroundColor(.black)
+
+                            Spacer()
+
+                            Text("Go to EasyCashBorrower")
+                                .fontWeight(.bold)
+                                .foregroundColor(.black)
+
+                            Spacer()
+
+                            Image(systemName: "headset")
+                                .foregroundColor(.black)
+                        }
+                        .padding()
+                        .padding(.top, 48)
+                    }
                 }
+                .frame(height: headerHeight)
+                .ignoresSafeArea(edges: .top),
+                alignment: .top
+            )
 
-                HStack {
-                    Image(systemName: "arrow.left")
-                        .foregroundColor(.black)
-
-                    Spacer()
-
-                    Text("Go to EasyCashBorrower")
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
-
-                    Spacer()
-
-                    Image(systemName: "headset")
-                        .foregroundColor(.black)
-                }
-                .padding()
-                .padding(.top, 48)
-            }
-            .frame(height: headerHeight)
-            .ignoresSafeArea(edges: .top)
+            // Custom Numpad
             if showCustomNumpad {
                 VStack(spacing: 0) {
                     Spacer()
@@ -120,7 +173,7 @@ struct BorrowingView: View {
                         CustomNumpad(input: $jumlahPinjaman)
 
                         Button(action: {
-                            withAnimation(.spring(response: 0.4, dampingFraction: 0.85, blendDuration: 0.25)) {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.85)) {
                                 showCustomNumpad = false
                             }
                         }) {
@@ -142,9 +195,10 @@ struct BorrowingView: View {
                 }
                 .ignoresSafeArea(.keyboard)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
-                .animation(.spring(response: 0.45, dampingFraction: 0.85, blendDuration: 0.3), value: showCustomNumpad)
+                .animation(.spring(response: 0.45, dampingFraction: 0.85), value: showCustomNumpad)
             }
         }
+        
 
         // MARK: - Sheets
         .sheet(isPresented: $showJumlahPinjamanTooltipModal) {
@@ -171,6 +225,15 @@ struct BorrowingView: View {
             SiPlinView(income: "6000000", borrowed: jumlahPinjaman)
                 .presentationDetents([.height(800)])
         }
+        .onChange(of: jumlahPinjaman) { newValue in
+            if let jumlahPinjamanDouble = Double(newValue) {
+                borrowingLoan = BorrowingController().hitungPinjaman(jumlahDiterima: jumlahPinjamanDouble, option: selectedLoanOption)
+            }
+        }
+        .onChange(of: selectedLoanOption) { newOption in
+            if let jumlahPinjamanDouble = Double(jumlahPinjaman) {
+                borrowingLoan = BorrowingController().hitungPinjaman(jumlahDiterima: jumlahPinjamanDouble, option: newOption)
+            }
+        }
     }
 }
-

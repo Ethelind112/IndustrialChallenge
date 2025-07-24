@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BorrowingLoan: ObservableObject, Identifiable {
+class BorrowingLoan: ObservableObject, Identifiable, Hashable {
     var id: UUID
     var tenor: Int
     var cicilanPerBulan: String
@@ -53,4 +53,12 @@ class BorrowingLoan: ObservableObject, Identifiable {
         self.PPn = PPn
     }
     
+    static func == (lhs: BorrowingLoan, rhs: BorrowingLoan) -> Bool {
+            lhs.id == rhs.id
+        }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
 }
+
