@@ -1,13 +1,13 @@
 //
-//  OptionComponent.swift
+//  OptionComponentBasedOnInput.swift
 //  IndustrialChallenge
 //
-//  Created by Ethelind Septiani Metta on 23/07/25.
+//  Created by Ethelind Septiani Metta on 24/07/25.
 //
 
 import SwiftUI
 
-struct OptionComponent: View {
+struct OptionComponentBasedOnInput: View {
     @State var option: BorrowingLoan
     @Binding var selectedOption: BorrowingLoan?
     var borrowingRequest: BorrowingLoan
@@ -23,28 +23,11 @@ struct OptionComponent: View {
             }
             
             VStack (alignment: .leading) {
-                
+
                 HStack {
-                    Text("Jumlah Pinjaman")
-                        .bold()
-                        
-                    
-                    Spacer()
-                    
-                    Text("Rp \(borrowingRequest.jumlahDiterima)")
-                        .bold()
-                }
-                
-                HStack {
-                    Text("Tenor")
-                        
-                    Spacer()
-                    
                     Text("\(String(borrowingRequest.tenor)) Bulan")
                         .bold()
-                        .foregroundColor(.primaryGreen)
                 }
-                .padding(.top, 5)
                 
                 HStack {
                     Text("Cicilan Perbulan")
@@ -55,10 +38,11 @@ struct OptionComponent: View {
                     Text("Rp \(borrowingRequest.cicilanPerBulan)")
                         .bold()
                 }
-                .padding(.top, 1)
+                .padding(.top, 5)
                 
                 HStack {
                     Text("Total Cicilan")
+                        .font(.system(size: 14))
                     
                     Spacer()
                     

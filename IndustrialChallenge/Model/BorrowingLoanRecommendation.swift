@@ -11,12 +11,7 @@ class BorrowingLoanRecommendation: ObservableObject {
     var borrowingLoan: [BorrowingLoan]
     var borrowingLoanRequest: BorrowingLoanRequest
     var recommendationBorrowing: BorrowingLoan? {
-        if borrowingLoan.count <= 3 {
-            borrowingLoan.min(by: { $0.totalCicilan < $1.totalCicilan })
-        } else {
-            borrowingLoan.suffix(3).min(by: { $0.totalCicilan < $1.totalCicilan })
-        }
-        
+        borrowingLoan.prefix(3).max(by: { $0.totalCicilan < $1.totalCicilan })
     }
     
     init(borrowingLoan: [BorrowingLoan], borrowingLoanRequest: BorrowingLoanRequest) {
