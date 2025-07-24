@@ -11,7 +11,7 @@ import SwiftUI
 struct IndustrialChallengeApp: App {
     var body: some Scene {
         WindowGroup {
-            BorrowingView()
+            Testing()
         }
     }
 }

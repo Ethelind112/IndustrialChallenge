@@ -8,12 +8,31 @@
 import Foundation
 
 extension String {
+    
+    func formatToRupiahStyle() -> String {
+        guard let number = Double(self) else { return self }
+
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = "."
+        formatter.decimalSeparator = "," // optional kalau kamu pakai desimal
+        formatter.locale = Locale(identifier: "id_ID")
+        formatter.maximumFractionDigits = 0
+
+        return formatter.string(from: NSNumber(value: number)) ?? self
+    }
+
+    
+    func formatWithoutDot() -> String {
+        return self.replacingOccurrences(of: ".", with: "")
+    }
+    
     func formatAsDecimal() -> String {
         let pattern = #"(\d[\d\.]*)"#
         let regex = try? NSRegularExpression(pattern: pattern)
         
         guard let regex = regex else { return self }
-
+        
         let matches = regex.matches(in: self, range: NSRange(self.startIndex..., in: self))
         
         var formatted = self

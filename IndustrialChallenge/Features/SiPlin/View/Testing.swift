@@ -17,7 +17,7 @@ struct Testing: View {
             Text("SiPlin")
         }
         .sheet(isPresented: $show) {
-            SiPlinView(income: "9000000", borrowed: "9000000")
+            SiPlinView(income: "3000000", borrowed: "9000000")
         }
     }
 }

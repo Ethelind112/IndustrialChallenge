@@ -17,26 +17,8 @@ struct ExpenseSheet: View {
         NavigationView {
             VStack {
                 VStack {
-                    ZStack (alignment: .leading) {
-                        VStack {
-                            Text("Isi Pengeluaranmu")
-                                .font(.body)
-                                .fontWeight(.bold)
-                            
-                            Text("SiPlin")
-                                .font(.caption)
-                                .foregroundColor(.gray)
-//                                        .padding(.top, 0.5)
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        Button {
-                            currSiPlinStep = .siPlinBorrowing
-                        }label: {
-                            Image(systemName: "arrow.left")
-                                .foregroundColor(.primaryGreen)
-                        }
-                    }
+                    
+                    HeaderExpense(currSiPlinStep: $currSiPlinStep, title: "Isi Pengeluaranmu")
                     
                     Spacer()
                     
@@ -47,95 +29,40 @@ struct ExpenseSheet: View {
                         
                     Spacer()
                     
-                    VStack {
-                        HStack {
-                            Text("Jumlah pinjaman yang diajukan")
-                            Spacer()
-                            Text("Rp \(viewModel.borrowed)")
-                            Image(systemName: "pencil")
-                        }
-                        .font(.caption)
-                        .padding(16)
-                        .background(Color("AdditionalColorLightGray"))
-                        .cornerRadius(13)
-                        
-                        HStack {
-                            Text("Pendapatan")
-                            Spacer()
-                            Text("Rp \(viewModel.income)")
-                            Image(systemName: "pencil")
-                        }
-                        .font(.caption)
-                        .padding(16)
-                        .background(Color("AdditionalColorLightGray"))
-                        .cornerRadius(13)
-                    }
+                    DetailExpense(viewModel: viewModel)
                     
                     Spacer()
                     
-                    VStack (alignment: .leading) {
-                        
-                        
-                        Text("Pengeluaranmu per bulan berapa?")
-                            .fontWeight(.bold)
-                            .font(.callout)
-                        
-                        Text(computation)
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                        
-                        HStack {
-                            Text("Rp")
-                            
-                            TextField("Pengeluaran", text: $viewModel.expense)
-                                .disabled(true)
-                        }
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        
-                        Rectangle()
-                            .frame(height: 1, alignment: .center)
-                            .foregroundColor(.primaryGreen)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.bottom, 24)
+                    IsiPengeluaran(viewModel: viewModel, computation: $computation)
                 }
                 .padding([.top, .horizontal], 20)
                 
                 Rectangle()
                     .frame(height: 1, alignment: .bottom)
-                    .foregroundColor(Color(.lightGray))
+                    .foregroundColor(Color("AdditionalColorLightGray"))
                 
                 VStack {
                     
                     VStack {
                         
-                        Calculator(inputs: $viewModel.expense, computation: $computation)
+                        Calculator(inputs: $viewModel.loanRequest.expense, computation: $computation)
+                            .padding(.horizontal, 30)
                         
                         Button {
-                          
-                        }label: {
-                            Text("Lanjut")
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 14)
-                                .background(.primaryGreen)
-                                .cornerRadius(14)
-                                .foregroundColor(.white)
-                                .font(.footnote)
-                                .fontWeight(.bold)
-                            
+                            currSiPlinStep = .siPlinRecommendation
+                        } label: {
+                            LanjutButton()
+                                .padding(.top, 30)
                         }
-                        .padding(.horizontal, 35)
-                        .padding(.top, 30)
+//                        .padding(.top, 1)
                     }
                     .font(.title3)
                     .fontWeight(.bold)
                     .foregroundColor(.black)
                     .frame(height: 300)
-                    
                 }
                 .padding(.vertical, 40)
-                .padding(.horizontal, 30)
+                
             }
         }
     }

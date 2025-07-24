@@ -11,7 +11,7 @@ struct NumberKeyboard: View {
     @Binding var inputs: String
     
     var body: some View {
-        Grid(alignment: .center, horizontalSpacing: 50, verticalSpacing: 20){
+        Grid(alignment: .center, horizontalSpacing: 70, verticalSpacing: 20){
             GridRow{
                 constructButton(text: "1")
                 
@@ -44,22 +44,21 @@ struct NumberKeyboard: View {
                 Button {
                     if inputs != ""{
                         inputs.removeLast()
-                        inputs = inputs.formatAsDecimal()
+                        inputs = inputs.formatToRupiahStyle()
                     }
                 } label: {
                     Image(systemName: "delete.left")
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(width: 50, height: 50)
             }
         }
     }
     
     func constructButton(text: String) -> some View{
         Text(text)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(.white)
+            .frame(width: 50, height: 50)
             .onTapGesture {
-                inputs = (inputs + text).formatAsDecimal()
+                inputs = (inputs + text).formatToRupiahStyle()
             }
     }
 }
