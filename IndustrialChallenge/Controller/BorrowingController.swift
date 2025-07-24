@@ -11,28 +11,22 @@ class BorrowingController {
         
         let bungaRate = option.bungaRate
         let durasi = option.tenorInMonths
-        let biayaLayananPersen = 0.01
-        let ppnPersen = 0.11
+        let biayaLayananPersen = 0.1 // 10%
+        let ppnPersen = 0.043 // 4.3%
         
-        let totalBunga = jumlahDiterima * bungaRate/100  * Double(durasi)
+        let totalBunga = jumlahDiterima * bungaRate/100  * Double(durasi) * 30
         print("Bunga : \(totalBunga)")
         
         let biayaLayanan = jumlahDiterima * biayaLayananPersen
-        let ppn = biayaLayanan * ppnPersen
-        
-        print(biayaLayanan)
-        print(ppn)
+        let ppn = jumlahDiterima * ppnPersen
         
         let totalCicilan = jumlahDiterima + totalBunga + biayaLayanan + ppn
-        print(totalCicilan)
         let cicilanPerBulan = totalCicilan / Double(option.tenorInMonths)
-        print(cicilanPerBulan)
         
-      
-
+    
         return BorrowingLoan(
             tenor: option.tenorInMonths,
-            cicilanPerBulan: String(format: "%.2f", cicilanPerBulan),
+                cicilanPerBulan: String(format: "%.2f", cicilanPerBulan),
                 totalCicilan: String(format: "%.2f", totalCicilan),
                 jumlahDiterima: String(format: "%.2f", jumlahDiterima),
                 bunga: String(format: "%.2f", totalBunga),

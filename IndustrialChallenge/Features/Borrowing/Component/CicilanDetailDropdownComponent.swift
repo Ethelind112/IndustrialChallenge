@@ -21,31 +21,43 @@ struct CicilanDetailDropdownComponent: View {
                     isExpanded.toggle()
                 }
             }) {
-                HStack {
+                VStack(spacing: 16){
                     HStack {
-                        Text("Cicilan Perbulan")
+                        HStack {
+                            Text("Cicilan Perbulan")
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
+                                .foregroundColor(.black)
+                            
+                            Button {
+                                showCicilanTooltipModal = true
+                            } label: {
+                                Image(systemName: "info.circle")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(Color("ToolTipBlue"))
+                            }
+                        }
+                        
+                        Spacer()
+                        Text("Rp \(formatToRupiahStyle(hasilHitung?.cicilanPerBulan ?? "-"))")
                             .font(.system(size: 14))
                             .fontWeight(.semibold)
                             .foregroundColor(.black)
                         
-                        Button {
-                            showCicilanTooltipModal = true
-                        } label: {
-                            Image(systemName: "info.circle")
-                                .font(.system(size: 12))
-                                .foregroundColor(Color("ToolTipBlue"))
-                        }
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            .foregroundColor(.black)
                     }
-                    
-                    Spacer()
-                    Text("Rp \(formatToRupiahStyle(hasilHitung?.cicilanPerBulan ?? "-"))")
-                        .font(.system(size: 14))
-                        .fontWeight(.semibold)
-                        .foregroundColor(.black)
-                    
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .foregroundColor(.black)
+                    Text("Berlaku dari 10 Agustus hingga 10 Oktober")
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                        .foregroundColor(Color("DarkGreen"))
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color("SecondaryGreen").opacity(0.6))
+                        .cornerRadius(8)
                 }
+               
                 .padding()
                 .background(
                     RoundedCorner(radius: 16, corners: [.bottomLeft, .bottomRight])
@@ -80,7 +92,7 @@ struct CicilanDetailDropdownComponent: View {
                     }
 
                     HStack {
-                        Text("Biaya Layanan (1%)")
+                        Text("Biaya Layanan (10%)")
                             .font(.system(size: 14))
                         Spacer()
                         Text("Rp \(formatToRupiahStyle(hitung.biayaLayanan))")
@@ -89,7 +101,7 @@ struct CicilanDetailDropdownComponent: View {
                     }
 
                     HStack {
-                        Text("PPn (11%)")
+                        Text("PPn (4.3%)")
                             .font(.system(size: 14))
                         Spacer()
                         Text("Rp \(formatToRupiahStyle(hitung.PPn))")

@@ -24,9 +24,9 @@ struct DurasiTenorComponent: View {
                 }
 
                 Spacer()
-                Text("1x cicilan per bulan")
+                Text("1x Cicilan Per Bulan")
                     .font(.system(size: 14))
-                    .fontWeight(.medium)
+                    .fontWeight(.semibold)
             }
 
             HStack {
@@ -43,6 +43,8 @@ struct DurasiTenorComponent: View {
                         if option != options.last {
                             Spacer()
                         }
+                       
+                        
                     }else{
                         DurasiTenorButton(
                             month: option.tenorInMonths,
@@ -58,15 +60,21 @@ struct DurasiTenorComponent: View {
                     }
                     
                 }
+                
+            }
+            if selectedOption.tenorInMonths == 12{
+                Text("Wah, 90% orang memilih ini! Lebih Hemat!")
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color("DarkGreen"))
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 4)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color("SecondaryGreen").opacity(0.6))
+                    .cornerRadius(8)
             }
 
-            Text("Wah, 90% orang memilih ini! Lebih Hemat!")
-                .font(.caption2)
-                .foregroundColor(.white)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(Color("SecondaryGreen"))
-                .cornerRadius(8)
+            
         }
         .padding(.vertical, 22)
         .padding(.horizontal, 16)

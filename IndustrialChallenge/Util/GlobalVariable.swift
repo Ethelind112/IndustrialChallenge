@@ -12,9 +12,9 @@ let maximumLimitPinjamanInt = 60000000
 let defaultBorrowingValue = "10000000"
 
 let loanOptions = [
-    LoanOption(tenorInMonths: 6, bungaRate: 0.02),
-    LoanOption(tenorInMonths: 9, bungaRate: 0.03),
-    LoanOption(tenorInMonths: 12, bungaRate: 0.04)
+    LoanOption(tenorInMonths: 6, bungaRate: 0.2),
+    LoanOption(tenorInMonths: 9, bungaRate: 0.3),
+    LoanOption(tenorInMonths: 12, bungaRate: 0.4)
 ]
 
 func formatToRupiahStyle(_ input: String) -> String {

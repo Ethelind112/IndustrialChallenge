@@ -12,7 +12,9 @@ struct SiPlinInactiveButton : View{
         HStack(spacing: 0){
             Image("rounded-siplin").resizable().frame(width: 65, height: 55)
             VStack(alignment: .leading, spacing: 4){
-                Text("Bingung menentukan jumlah pinjaman?").font(.system(size: 13)).fontWeight(.semibold)
+                Text("Bingung menentukan jumlah pinjaman?")
+                    .font(.system(size: 13))
+                    .foregroundStyle(Color.black).fontWeight(.semibold)
                (
                 Text("Gunakan rekomendasi ") + Text("SiPlin").fontWeight(.semibold)
                ).font(.system(size: 14)).foregroundColor(Color("DarkGreen"))
