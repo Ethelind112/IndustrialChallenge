@@ -26,7 +26,7 @@ struct IsiPengeluaran: View {
             HStack {
                 Text("Rp")
                 
-                TextField("Pengeluaran", text: $viewModel.loanRequest.expense)
+                TextField("0", text: $viewModel.loanRequest.expense)
                     .disabled(true)
             }
             .font(.title3)

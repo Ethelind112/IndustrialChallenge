@@ -253,7 +253,7 @@ struct BorrowingView: View {
                 .presentationDetents([.height(600)])
         }
         .sheet(isPresented: $showSiPlinModal) {
-            SiPlinView(income: "6000000", borrowed: jumlahPinjaman)
+            SiPlinView(showSiPlinModal: $showSiPlinModal, borrowBind: $jumlahPinjaman, income: "9000000")
                 .presentationDetents([.height(800)])
         }
         .onChange(of: jumlahPinjaman) { newValue in
