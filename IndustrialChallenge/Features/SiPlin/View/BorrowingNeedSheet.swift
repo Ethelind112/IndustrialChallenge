@@ -12,12 +12,14 @@ struct BorrowingNeedSheet: View {
     @Binding var borrowed: String
     @Binding var currSiPlinStep: SiPlinStep
     @State var showToast = false
+    @State var showToast2 = false
+    @State var isError = false
     
     var body: some View {
         NavigationStack {
             ZStack (alignment: .top) {
-                if showToast {
-                    ToastView(type: .warning, message: "Maksimum jumlah pinjaman adalah Rp60.000.000")
+                if showToast2 {
+                    ToastView(type: .warning, message: "Nominal pinjaman melebihi maksimum limit! ")
                         .transition(.move(edge: .top).combined(with: .opacity))
                         .zIndex(999)
                         .onAppear {
@@ -44,7 +46,7 @@ struct BorrowingNeedSheet: View {
                         
                         Spacer()
                         
-                        IsiPinjamComponent(borrowed: $borrowed)
+                        IsiPinjamComponent(borrowed: $borrowed, isError: $isError)
                         
                         Spacer()
                     }
@@ -66,10 +68,15 @@ struct BorrowingNeedSheet: View {
                             Button {
                                 currSiPlinStep = .siPlinExpense
                             } label: {
-                                LanjutButton(textColor: .white, backgroundColor: .primaryGreen)
-                                    .padding(.top, 30)
+                                if borrowed == "" || borrowed == "0" || isError {
+                                    LanjutButton(textColor: .gray, backgroundColor: .additionalColorLightGray)
+                                        .padding(.top, 30)
+                                } else {
+                                    LanjutButton(textColor: .white, backgroundColor: .primaryGreen)
+                                        .padding(.top, 30)
+                                }
                             }
-    //                        .padding(.top)
+                            .disabled(isError)
                             
                         }
                         .font(.title3)
@@ -85,10 +92,14 @@ struct BorrowingNeedSheet: View {
                 }
             }
             .onChange(of: borrowed) {
-                if Int(borrowed.formatWithoutDot()) ?? 0 > maximumLimitPinjamanInt {
+                isError = Int(borrowed.formatWithoutDot()) ?? 0 > maximumLimitPinjamanInt
+                
+                if isError {
                     showToast = true
-                    borrowed = maximumLimitPinjaman.formatAsDecimal()
                 }
+            }
+            .onChange(of: showToast) {
+                showToast2 = showToast
             }
         }
     }

@@ -14,6 +14,7 @@ struct ExpenseSheet: View {
     @State var computation: String = ""
     @State var showToast = false
     @State var showToast2 = false
+    @State var isError = false
     
     var body: some View {
         NavigationView {
@@ -21,7 +22,7 @@ struct ExpenseSheet: View {
             ZStack (alignment: .top) {
                 
                 if showToast2 {
-                    ToastView(type: .warning, message: "Pengeluaranmu tidak bisa minus")
+                    ToastView(type: .warning, message: "Nominal pinjaman tidak mencapai batas minimum!")
                         .transition(.move(edge: .top).combined(with: .opacity))
                         .zIndex(999)
                         .onAppear {
@@ -51,7 +52,7 @@ struct ExpenseSheet: View {
                         
                         Spacer()
                         
-                        IsiPengeluaran(viewModel: viewModel, computation: $computation)
+                        IsiPengeluaran(viewModel: viewModel, computation: $computation, isError: $isError)
                     }
                     .padding([.top, .horizontal], 20)
                     
@@ -67,12 +68,10 @@ struct ExpenseSheet: View {
                                 .padding(.horizontal, 30)
                             
                             Button {
-                                if Int(viewModel.expense.formatWithoutDot()) ?? 0 >= 0 {
-                                    currSiPlinStep = .siPlinRecommendation
-                                }
+                                currSiPlinStep = .siPlinRecommendation
                             } label: {
                                 
-                                if Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0 {
+                                if viewModel.expense == "" || viewModel.expense == "0" || isError {
                                     LanjutButton(textColor: .gray, backgroundColor: .additionalColorLightGray)
                                         .padding(.top, 30)
                                 } else {
@@ -82,7 +81,7 @@ struct ExpenseSheet: View {
                                 
                                 
                             }
-                            .disabled(Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0)
+                            .disabled(isError)
     //                        .padding(.top, 1)
                         }
                         .font(.title3)
@@ -94,7 +93,9 @@ struct ExpenseSheet: View {
                     
                 }
                 .onChange(of: viewModel.expense) {
-                    if Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0 {
+                    isError = Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0
+                    
+                    if isError {
                         showToast = true
                     }
                 }
