@@ -26,7 +26,12 @@ struct HeaderExpense: View {
             .frame(maxWidth: .infinity)
             
             Button {
-                currSiPlinStep = .siPlinBorrowing
+                if currSiPlinStep == .siPlinExpense {
+                    currSiPlinStep = .siPlinBorrowing
+                } else {
+                    currSiPlinStep = .siPlinExpense
+                }
+                
             }label: {
                 Image(systemName: "arrow.left")
                     .foregroundColor(.primaryGreen)

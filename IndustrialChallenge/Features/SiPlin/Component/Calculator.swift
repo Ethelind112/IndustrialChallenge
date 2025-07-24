@@ -69,7 +69,7 @@ struct Calculator: View {
                             
                             if let lastChar = computation.last, !operation.contains(String(lastChar)) {
                                 let calculationResult = evaluate(formatWithoutDot(computation))
-                                inputs = String(calculationResult ?? 0).formatToRupiahStyle()
+                                inputs = String(calculationResult ?? 0).formatAsDecimal()
                                 computation = computation.formatAsDecimal()
                             }else {
                                 var result = computation
@@ -80,7 +80,7 @@ struct Calculator: View {
                         
                     } else if inputs != ""{
                         inputs.removeLast()
-                        inputs = inputs.formatToRupiahStyle()
+                        inputs = inputs.formatAsDecimal()
                     }
                 } label: {
                     Image(systemName: "delete.left")
@@ -125,7 +125,7 @@ struct Calculator: View {
                     
                     let calculationResult = evaluate(formatWithoutDot(temp))
                     
-                    inputs = String(calculationResult ?? 0).formatToRupiahStyle()
+                    inputs = String(calculationResult ?? 0).formatAsDecimal()
                     
                     isComputation = true
                 }
@@ -133,11 +133,11 @@ struct Calculator: View {
                 let toCalculate = computation + text
                 let calculationResult = evaluate(formatWithoutDot(toCalculate))
                 
-                inputs = String(calculationResult ?? 0).formatToRupiahStyle()
+                inputs = String(calculationResult ?? 0).formatAsDecimal()
             }
             
             if !isComputation {
-                inputs = (inputs + text).formatToRupiahStyle()
+                inputs = (inputs + text).formatAsDecimal()
             } else {
                 computation = (computation + text).formatAsDecimal()
             }

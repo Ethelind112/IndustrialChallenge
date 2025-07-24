@@ -33,25 +33,27 @@ class RecommendationCalculation {
         let biayaLayanan6 = budget*0.1
         let PPn6 = budget*0.043
         var bungaTotal6 = budget*0.002*6*30
-        let totalBayar6 = Int(budget) + Int(bungaTotal6) + Int(biayaLayanan6) + Int(PPn6)
-        let cicilanPerBulan6 = totalBayar6/6
         
         if bungaTotal6 > budget {
             bungaTotal6 = budget
         }
         
-        resultNegative.append(BorrowingLoan(tenor: 6, cicilanPerBulan: String(Int(cicilanPerBulan6)).formatToRupiahStyle(), totalCicilan: String(Int(totalBayar6)).formatToRupiahStyle(), jumlahDiterima: String(Int(budget)).formatToRupiahStyle(), bunga: String(Int(bungaTotal6)).formatToRupiahStyle(), biayaLayanan: String(Int(biayaLayanan6)).formatToRupiahStyle(), PPn: String(Int(PPn6)).formatToRupiahStyle()))
+        let totalBayar6 = Int(budget) + Int(bungaTotal6) + Int(biayaLayanan6) + Int(PPn6)
+        let cicilanPerBulan6 = totalBayar6/6
+        
+        resultNegative.append(BorrowingLoan(tenor: 6, cicilanPerBulan: String(Int(cicilanPerBulan6)).formatAsDecimal(), totalCicilan: String(Int(totalBayar6)).formatAsDecimal(), jumlahDiterima: String(Int(budget)).formatAsDecimal(), bunga: String(Int(bungaTotal6)).formatAsDecimal(), biayaLayanan: String(Int(biayaLayanan6)).formatAsDecimal(), PPn: String(Int(PPn6)).formatAsDecimal()))
         
         //        9 bulan
         let biayaLayanan9 = budget*0.1
         let PPn9 = budget*0.043
         var bungaTotal9 = budget*0.003*9*30
-        let totalBayar9 = Int(budget) + Int(bungaTotal9) + Int(biayaLayanan9) + Int(PPn9)
-        let cicilanPerBulan9 = totalBayar9/9
         
         if bungaTotal9 > budget {
             bungaTotal9 = budget
         }
+        
+        let totalBayar9 = Int(budget) + Int(bungaTotal9) + Int(biayaLayanan9) + Int(PPn9)
+        let cicilanPerBulan9 = totalBayar9/9
         
         resultNegative.append(BorrowingLoan(tenor: 9, cicilanPerBulan: String(Int(cicilanPerBulan9)).formatToRupiahStyle(), totalCicilan: String(Int(totalBayar9)).formatToRupiahStyle(), jumlahDiterima: String(Int(budget)).formatToRupiahStyle(), bunga: String(Int(bungaTotal9)).formatToRupiahStyle(), biayaLayanan: String(Int(biayaLayanan9)), PPn: String(Int(PPn9)).formatToRupiahStyle()))
         
@@ -59,12 +61,13 @@ class RecommendationCalculation {
         let biayaLayanan12 = budget*0.1
         let PPn12 = budget*0.043
         var bungaTotal12 = budget*0.004*12*30
-        let totalBayar12 = Int(budget) + Int(bungaTotal12) + Int(biayaLayanan12) + Int(PPn12)
-        let cicilanPerBulan12 = totalBayar12/12
         
         if bungaTotal12 > budget {
             bungaTotal12 = budget
         }
+        
+        let totalBayar12 = Int(budget) + Int(bungaTotal12) + Int(biayaLayanan12) + Int(PPn12)
+        let cicilanPerBulan12 = totalBayar12/12
         
         resultNegative.append(BorrowingLoan(tenor: 12, cicilanPerBulan: String(Int(cicilanPerBulan12)).formatToRupiahStyle(), totalCicilan: String(Int(totalBayar12)).formatToRupiahStyle(), jumlahDiterima: String(Int(budget)).formatToRupiahStyle(), bunga: String(Int(bungaTotal12)).formatToRupiahStyle(), biayaLayanan: String(Int(biayaLayanan12)).formatToRupiahStyle(), PPn: String(Int(PPn12)).formatToRupiahStyle()))
         

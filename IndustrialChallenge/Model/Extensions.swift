@@ -10,19 +10,18 @@ import Foundation
 extension String {
     
     func formatToRupiahStyle() -> String {
-        // Remove any non-digit characters
-        let cleanInput = self.filter { $0.isNumber }
-
-        // Convert to number
-        guard let number = Int(cleanInput) else { return self }
+        guard let number = Double(self) else { return self }
 
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = "."
+        formatter.decimalSeparator = "," // optional kalau kamu pakai desimal
         formatter.locale = Locale(identifier: "id_ID")
+        formatter.maximumFractionDigits = 0
 
         return formatter.string(from: NSNumber(value: number)) ?? self
     }
+
     
     func formatWithoutDot() -> String {
         return self.replacingOccurrences(of: ".", with: "")

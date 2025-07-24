@@ -64,10 +64,10 @@ struct RecommendationSheet: View {
                                 .multilineTextAlignment(.leading)
                             
                             if borrowingRequest.deficit {
-                                DeficitBanner(deficit: String(Int(borrowingRequest.expenseValue - borrowingRequest.borrowingNeedValue)).formatToRupiahStyle())
+                                DeficitBanner(deficit: String(Int(borrowingRequest.expenseValue - borrowingRequest.incomeValue)).formatToRupiahStyle())
                                     .padding(.bottom, 24)
                             } else {
-                                SurplusBanner(surplus: String(Int(borrowingRequest.borrowingNeedValue - borrowingRequest.expenseValue)).formatToRupiahStyle())
+                                SurplusBanner(surplus: String(Int(borrowingRequest.incomeValue - borrowingRequest.expenseValue)).formatToRupiahStyle())
                                     .padding(.bottom, 24)
                             }
                             
