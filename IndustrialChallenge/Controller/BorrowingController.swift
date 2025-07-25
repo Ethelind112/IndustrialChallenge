@@ -14,7 +14,12 @@ class BorrowingController {
         let biayaLayananPersen = 0.1 // 10%
         let ppnPersen = 0.043 // 4.3%
         
-        let totalBunga = jumlahDiterima * bungaRate/100  * Double(durasi) * 30
+        var totalBunga = jumlahDiterima * bungaRate/100  * Double(durasi) * 30
+        
+        if totalBunga > jumlahDiterima {
+            totalBunga = jumlahDiterima
+        }
+        
         print("Bunga : \(totalBunga)")
         
         let biayaLayanan = jumlahDiterima * biayaLayananPersen
