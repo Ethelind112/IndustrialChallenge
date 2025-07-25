@@ -14,11 +14,11 @@ struct KetahuiSiPlin: View {
             
         }label: {
             HStack {
-                Image(systemName: "hand.tap")
-                    .font(.title)
+                Image(systemName: "play.circle.fill")
+                    .font(.title2)
                     .padding(.trailing, 10)
                 
-                Text("Ketahui SiPlin Disini")
+                Text("Cek cara pakai SiPlin disini")
                     .font(.caption)
                     .fontWeight(.medium)
             }

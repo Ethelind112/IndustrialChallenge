@@ -14,6 +14,9 @@ enum SiPlinStep {
 }
 
 struct SiPlinView: View {
+    @Binding var toastType: ToastType
+    @Binding var message: String
+    @Binding var showSuccessToast: Bool
     
     @Binding var selectedTenor: LoanOption
     @Binding var borrowBind: String
@@ -26,7 +29,11 @@ struct SiPlinView: View {
     
     @State var currSiPlinStep = SiPlinStep.siPlinBorrowing
     
-    init(selectedLoanOption: Binding<LoanOption>, showSiPlinModal: Binding<Bool>, borrowBind: Binding<String>, income: String) {
+    init(showSuccessToast: Binding<Bool>, toastType: Binding<ToastType>, message: Binding<String>, selectedLoanOption: Binding<LoanOption>, showSiPlinModal: Binding<Bool>, borrowBind: Binding<String>, income: String) {
+        self._showSuccessToast = showSuccessToast
+        self._toastType = toastType
+        self._message = message
+        
         self._selectedTenor = selectedLoanOption
         self._borrowBind = borrowBind
         self._showSiPlinModal = showSiPlinModal
@@ -50,7 +57,7 @@ struct SiPlinView: View {
         case .siPlinExpense:
             ExpenseSheet(viewModel: viewModel, currSiPlinStep: $currSiPlinStep)
         case .siPlinRecommendation:
-            RecommendationSheet(selectedOptionTenor: $selectedTenor, showSiPlinModal: $showSiPlinModal, borrowBind: $borrowBind, currsiPlinStep: $currSiPlinStep, borrowingRequest: viewModel.loanRequest, income: income, borrowed: borrowed, siPlinModel: viewModel)
+            RecommendationSheet(showSuccessToast: $showSuccessToast, toastMessage: $message, toastType: $toastType, selectedOptionTenor: $selectedTenor, showSiPlinModal: $showSiPlinModal, borrowBind: $borrowBind, currsiPlinStep: $currSiPlinStep, borrowingRequest: viewModel.loanRequest, income: income, borrowed: borrowed, siPlinModel: viewModel)
         }
         
     }
@@ -61,5 +68,11 @@ struct SiPlinView: View {
     @Previewable @State var showSiPlinModal = true
     @Previewable @State var selectedLoanOption = loanOptions[2]
     
-    SiPlinView(selectedLoanOption: $selectedLoanOption, showSiPlinModal: $showSiPlinModal, borrowBind: $borrow, income: "9000000")
+    @Previewable @State var toastType: ToastType = .success
+    
+    @Previewable @State var message: String = "Nominal pinjaman berhasil dimasukkan!"
+    
+    @Previewable @State var showSuccessToast: Bool = false
+    
+    SiPlinView(showSuccessToast: $showSuccessToast, toastType: $toastType, message: $message, selectedLoanOption: $selectedLoanOption, showSiPlinModal: $showSiPlinModal, borrowBind: $borrow, income: "9000000")
 }
