@@ -11,62 +11,97 @@ struct BorrowingNeedSheet: View {
     
     @Binding var borrowed: String
     @Binding var currSiPlinStep: SiPlinStep
+    @State var showToast = false
+    @State var showToast2 = false
+    @State var isError = false
     
     var body: some View {
         NavigationStack {
-            VStack {
-                HeaaderBorrowingNeed()
-                
-                VStack {
-                    Text("Langsung dapatkan jumlah pinjaman yang sesuai dengan kapabilitasmu!")
-                        .font(.caption)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
-                    
-                    Spacer()
-                    
-                    KetahuiSiPlin()
-                    
-                    Spacer()
-                    
-                    IsiPinjamComponent(borrowed: $borrowed)
-                    
-                    Spacer()
+            ZStack (alignment: .top) {
+                if showToast2 {
+                    ToastView(type: .warning, message: "Nominal pinjaman melebihi maksimum limit! ")
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .zIndex(999)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                                withAnimation {
+                                    showToast = false
+                                }
+                            }
+                        }
                 }
-                .padding(.horizontal, 20)
-                
-                Rectangle()
-                    .frame(height: 1, alignment: .bottom)
-                    .foregroundColor(Color("AdditionalColorLightGray"))
-                
-                Spacer()
                 
                 VStack {
+                    HeaaderBorrowingNeed()
+                    
+                    VStack {
+                        Text("Langsung dapatkan jumlah pinjaman yang sesuai dengan kapabilitasmu!")
+                            .font(.caption)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
+                        
+                        Spacer()
+                        
+                        KetahuiSiPlin()
+                            .shadow(color: Color.black.opacity(0.25), radius: 3.5, x: 0, y: 4)
+                        
+                        Spacer()
+                        
+                        IsiPinjamComponent(borrowed: $borrowed, isError: $isError)
+                        
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+                    
+                    Rectangle()
+                        .frame(height: 1, alignment: .bottom)
+                        .foregroundColor(Color("AdditionalColorLightGray"))
+                    
+                    Spacer()
                     
                     VStack {
                         
-                        NumberKeyboard(inputs: $borrowed)
-                            .padding(.horizontal, 30)
-                        
-                        Button {
-                            currSiPlinStep = .siPlinExpense
-                        } label: {
-                            LanjutButton()
-                                .padding(.top, 30)
+                        VStack {
+                            
+                            NumberKeyboard(inputs: $borrowed)
+                                .padding(.horizontal, 30)
+                            
+                            Button {
+                                currSiPlinStep = .siPlinExpense
+                            } label: {
+                                if borrowed == "" || borrowed == "0" || isError {
+                                    LanjutButton(textColor: .gray, backgroundColor: .additionalColorLightGray)
+                                        .padding(.top, 30)
+                                } else {
+                                    LanjutButton(textColor: .white, backgroundColor: .primaryGreen)
+                                        .padding(.top, 30)
+                                }
+                            }
+                            .disabled(isError)
+                            
                         }
-//                        .padding(.top)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                        .frame(height: 300)
                         
                     }
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .foregroundColor(.black)
-                    .frame(height: 300)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 40)
+                    
+                    Spacer()
                     
                 }
-                .padding(.vertical, 40)
+            }
+            .onChange(of: borrowed) {
+                isError = Int(borrowed.formatWithoutDot()) ?? 0 > maximumLimitPinjamanInt
                 
-                Spacer()
-                
+                if isError {
+                    showToast = true
+                }
+            }
+            .onChange(of: showToast) {
+                showToast2 = showToast
             }
         }
     }

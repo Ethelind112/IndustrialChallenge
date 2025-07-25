@@ -124,7 +124,14 @@ struct RecommendationSheet: View {
                     }
                     
                 }label: {
-                    RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .white, backgroundColor: .primaryGreen)
+                    
+                    if selectedOption == nil {
+                        RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .gray, backgroundColor: .additionalColorLightGray)
+                    } else {
+                        RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .white, backgroundColor: .primaryGreen)
+                    }
+                    
+                    
                 }
                 .disabled(selectedOption == nil)
 

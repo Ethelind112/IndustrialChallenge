@@ -9,12 +9,14 @@ import SwiftUI
 
 struct IsiPinjamComponent: View {
     @Binding var borrowed: String
+    @Binding var isError: Bool
     
     var body: some View {
         VStack (alignment: .leading) {
             Text("Mau Pinjam Berapa?")
                 .font(.caption)
                 .fontWeight(.bold)
+                .foregroundColor(isError ? .red : .black)
             
             HStack {
                 Text("Rp")
@@ -27,12 +29,22 @@ struct IsiPinjamComponent: View {
             
             Rectangle()
                 .frame(height: 1, alignment: .bottom)
-                .foregroundColor(.primaryGreen)
+                .foregroundColor(isError ? .red : .primaryGreen)
+            
+            
             
             HStack {
-                Text("Maksimum Limit Pinjaman")
+                if isError {
+                    Text("Nominal pinjaman melebihi maksimum limit! ")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                } else {
+                    Text("Maksimum Limit Pinjaman")
+                }
+                
                 Spacer()
                 Text("Rp. 60.000.000")
+                    .foregroundColor(isError ? .red : .black)
             }
             .font(.caption)
             
