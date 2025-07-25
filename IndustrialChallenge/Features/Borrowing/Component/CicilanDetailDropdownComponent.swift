@@ -9,10 +9,8 @@ import SwiftUI
 struct CicilanDetailDropdownComponent: View {
     @State private var isExpanded = false
     @Binding var showCicilanTooltipModal: Bool
-    var jumlahPinjaman: Double
-    var selectedLoanOption: LoanOption
-    
-    @State private var hasilHitung: BorrowingLoan?
+    @Binding var borrowingLoan: BorrowingLoan
+    @Binding var loanOption : LoanOption
 
     var body: some View {
         VStack(spacing: 0) {
@@ -39,7 +37,7 @@ struct CicilanDetailDropdownComponent: View {
                         }
                         
                         Spacer()
-                        Text("Rp \(formatToRupiahStyle(hasilHitung?.cicilanPerBulan ?? "-"))")
+                        Text("Rp \(formatToRupiahStyle(borrowingLoan.cicilanPerBulan ?? "-"))")
                             .font(.system(size: 14))
                             .fontWeight(.semibold)
                             .foregroundColor(.black)
@@ -70,23 +68,23 @@ struct CicilanDetailDropdownComponent: View {
 
             }
 
-            if isExpanded, let hitung = hasilHitung {
+            if isExpanded {
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
                         Text("Durasi Tenor")
                             .font(.system(size: 14))
                         Spacer()
-                        Text("\(hitung.tenor) bulan")
+                        Text("\(borrowingLoan.tenor) bulan")
                             .fontWeight(.semibold)
                             .font(.system(size: 14))
                             .foregroundColor(Color("PrimaryGreen"))
                     }
 
                     HStack {
-                        Text("Bunga (\(String(format: "%.2f", selectedLoanOption.bungaRate))% x \(hitung.tenor))")
+                        Text("Bunga (\(String(format: "%.2f", loanOption.bungaRate))% x \(borrowingLoan.tenor))")
                             .font(.system(size: 14))
                         Spacer()
-                        Text("Rp \(formatToRupiahStyle((hitung.bunga)))")
+                        Text("Rp \(formatToRupiahStyle((borrowingLoan.bunga)))")
                             .font(.system(size: 14))
                             .fontWeight(.medium)
                     }
@@ -95,7 +93,7 @@ struct CicilanDetailDropdownComponent: View {
                         Text("Biaya Layanan (10%)")
                             .font(.system(size: 14))
                         Spacer()
-                        Text("Rp \(formatToRupiahStyle(hitung.biayaLayanan))")
+                        Text("Rp \(formatToRupiahStyle(borrowingLoan.biayaLayanan))")
                             .font(.system(size: 14))
                             .fontWeight(.medium)
                     }
@@ -104,7 +102,7 @@ struct CicilanDetailDropdownComponent: View {
                         Text("PPn (4.3%)")
                             .font(.system(size: 14))
                         Spacer()
-                        Text("Rp \(formatToRupiahStyle(hitung.PPn))")
+                        Text("Rp \(formatToRupiahStyle(borrowingLoan.PPn))")
                             .font(.system(size: 14))
                             .fontWeight(.medium)
                     }
@@ -116,7 +114,7 @@ struct CicilanDetailDropdownComponent: View {
                             .font(.system(size: 14))
                             .fontWeight(.medium)
                         Spacer()
-                        Text("Rp \(formatToRupiahStyle(hitung.totalCicilan))")
+                        Text("Rp \(formatToRupiahStyle(borrowingLoan.totalCicilan))")
                             .font(.system(size: 14))
                             .fontWeight(.semibold)
                     }
@@ -136,18 +134,6 @@ struct CicilanDetailDropdownComponent: View {
             }
         }
         .padding()
-        .onAppear(){
-            print("Menghitung jumlah pinjaman", jumlahPinjaman)
-            hasilHitung = BorrowingController().hitungPinjaman(jumlahDiterima: jumlahPinjaman, option: selectedLoanOption)
-        }
-        .onChange(of: jumlahPinjaman) { newValue in
-            print("Menghitung jumlah pinjaman", newValue)
-            hasilHitung = BorrowingController().hitungPinjaman(jumlahDiterima: newValue, option: selectedLoanOption)
-        }
-        .onChange(of: selectedLoanOption) { newOption in
-            print("Menghitung jumlah pinjaman", jumlahPinjaman)
-            hasilHitung = BorrowingController().hitungPinjaman(jumlahDiterima: jumlahPinjaman, option: newOption)
-        }
 
     }
 }
