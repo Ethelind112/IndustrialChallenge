@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct PrimaryButton: View {
+    var action: () -> Void
     var body: some View {
         Button {
+            action()
         } label: {
             Text("Konfirmasi")
                 .font(.headline)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 24)
+                .padding(.vertical, 22)
                 .background(Color("PrimaryGreen"))
-                .cornerRadius(12)
+                .cornerRadius(8)
                 .padding(.horizontal, 22)
         }
     }
