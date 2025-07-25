@@ -8,20 +8,22 @@
 import SwiftUI
 
 struct LanjutButton: View {
+    
+    @State var textColor: Color
+    @State var backgroundColor: Color
+    
     var body: some View {
-        
         Text("Lanjut")
             .font(.headline)
             .fontWeight(.bold)
-            .foregroundColor(.white)
+            .foregroundColor(textColor)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 24)
-            .background(Color("PrimaryGreen"))
+            .padding(.vertical, 15)
+            .background(backgroundColor)
             .cornerRadius(12)
-            .padding(.horizontal, 22)
     }
 }
 
 #Preview {
-    LanjutButton()
+    LanjutButton(textColor: .white, backgroundColor: .primaryGreen)
 }
