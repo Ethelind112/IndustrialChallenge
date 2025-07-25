@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RecommendationSheet: View {
+    @Binding var selectedOptionTenor: LoanOption
     @Binding var showSiPlinModal: Bool
     @Binding var borrowBind: String
     @Binding var currsiPlinStep: SiPlinStep
@@ -118,9 +119,21 @@ struct RecommendationSheet: View {
                 .padding(.top, 5)
                 
                 Button{
-                    if let borrowResult = selectedOption?.jumlahDiterima {
-                        borrowBind = borrowResult.formatWithoutDot()
+                    if let borrowResult = selectedOption {
+                        borrowBind = borrowResult.jumlahDiterima.formatWithoutDot()
                         showSiPlinModal = false
+                        
+                        var index = 0
+                        
+                        if borrowResult.tenor == 6 {
+                            index = 0
+                        } else if borrowResult.tenor == 9 {
+                            index = 1
+                        }else {
+                            index = 2
+                        }
+                        
+                        selectedOptionTenor = loanOptions[index]
                     }
                     
                 }label: {

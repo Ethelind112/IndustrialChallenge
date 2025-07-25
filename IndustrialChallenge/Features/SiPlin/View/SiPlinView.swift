@@ -15,6 +15,7 @@ enum SiPlinStep {
 
 struct SiPlinView: View {
     
+    @Binding var selectedTenor: LoanOption
     @Binding var borrowBind: String
     @Binding var showSiPlinModal: Bool
     @State var income: String
@@ -25,7 +26,8 @@ struct SiPlinView: View {
     
     @State var currSiPlinStep = SiPlinStep.siPlinBorrowing
     
-    init(showSiPlinModal: Binding<Bool>, borrowBind: Binding<String>, income: String) {
+    init(selectedLoanOption: Binding<LoanOption>, showSiPlinModal: Binding<Bool>, borrowBind: Binding<String>, income: String) {
+        self._selectedTenor = selectedLoanOption
         self._borrowBind = borrowBind
         self._showSiPlinModal = showSiPlinModal
         let expense = ""
@@ -48,7 +50,7 @@ struct SiPlinView: View {
         case .siPlinExpense:
             ExpenseSheet(viewModel: viewModel, currSiPlinStep: $currSiPlinStep)
         case .siPlinRecommendation:
-            RecommendationSheet(showSiPlinModal: $showSiPlinModal, borrowBind: $borrowBind, currsiPlinStep: $currSiPlinStep, borrowingRequest: viewModel.loanRequest, income: income, borrowed: borrowed, siPlinModel: viewModel)
+            RecommendationSheet(selectedOptionTenor: $selectedTenor, showSiPlinModal: $showSiPlinModal, borrowBind: $borrowBind, currsiPlinStep: $currSiPlinStep, borrowingRequest: viewModel.loanRequest, income: income, borrowed: borrowed, siPlinModel: viewModel)
         }
         
     }
@@ -57,6 +59,7 @@ struct SiPlinView: View {
 #Preview {
     @Previewable @State var borrow = "9000000"
     @Previewable @State var showSiPlinModal = true
+    @Previewable @State var selectedLoanOption = loanOptions[2]
     
-    SiPlinView(showSiPlinModal: $showSiPlinModal, borrowBind: $borrow, income: "9000000")
+    SiPlinView(selectedLoanOption: $selectedLoanOption, showSiPlinModal: $showSiPlinModal, borrowBind: $borrow, income: "9000000")
 }

@@ -15,6 +15,7 @@ struct ExpenseSheet: View {
     @State var showToast = false
     @State var showToast2 = false
     @State var isError = false
+    @State var isEmpty = true
     
     var body: some View {
         NavigationView {
@@ -68,10 +69,13 @@ struct ExpenseSheet: View {
                                 .padding(.horizontal, 20)
                             
                             Button {
-                                currSiPlinStep = .siPlinRecommendation
+                                if !isError && !isEmpty {
+                                    currSiPlinStep = .siPlinRecommendation
+                                }
+                                
                             } label: {
                                 
-                                if viewModel.expense == "" || viewModel.expense == "0" || isError {
+                                if isEmpty || isError {
                                     LanjutButton(textColor: .gray, backgroundColor: .additionalColorLightGray)
                                         .padding(.top, 30)
                                 } else {
@@ -81,7 +85,6 @@ struct ExpenseSheet: View {
                                 
                                 
                             }
-                            .disabled(isError)
     //                        .padding(.top, 1)
                         }
                         .font(.title3)
@@ -95,6 +98,12 @@ struct ExpenseSheet: View {
                 }
                 .onChange(of: viewModel.expense) {
                     isError = Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0
+                    
+                    if viewModel.expense == "" || viewModel.expense == "0" {
+                        isEmpty = true
+                    } else {
+                        isEmpty = false
+                    }
                     
                     if isError {
                         showToast = true
