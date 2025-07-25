@@ -31,6 +31,7 @@ struct RecommendationSheet: View {
     
     @State var showOpsiUserInput: Bool = false
     @State var optionToShow: [BorrowingLoan] = []
+    @State var recommendationZero = false
     
     
     var body: some View {
@@ -44,10 +45,18 @@ struct RecommendationSheet: View {
                 ScrollView {
                     VStack {
                         VStack {
-                            Text("Yuk Pinjam Sesuai Surplusmu!")
-                                .font(.system(size: 14, weight: .bold))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .multilineTextAlignment(.leading)
+                            if recommendationZero {
+                                Text("Yuk Pinjam!")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .multilineTextAlignment(.leading)
+                            } else {
+                                Text("Yuk Pinjam Sesuai Surplusmu!")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .multilineTextAlignment(.leading)
+                            }
+                           
                             
                             
                             Text("Jumlah pinjaman yang kamu ajukan belum sesuai dengan kapabilitas keuanganmu saat ini.")
@@ -61,9 +70,9 @@ struct RecommendationSheet: View {
                                 Button {
                                     showOpsiUserInput = false
                                 } label: {
-                                    if !showOpsiUserInput {
+                                    if !showOpsiUserInput && !recommendationZero {
                                         DetailRecommendationComponent(backgroundColor: .primaryLightGreen, borderColor: .clear, sectionTitle: rekomendasiTitle, optionalText: rekomendasioptionalTitle, recommended: optionResult?.recommendationBorrowing?.jumlahDiterima ?? "0")
-                                    } else {
+                                    } else if optionResult?.recommendationBorrowing?.jumlahDiterima != "0" && optionResult?.recommendationBorrowing?.jumlahDiterima != nil {
                                         DetailRecommendationComponent(backgroundColor: .white, borderColor: .additionalColorLightGray, sectionTitle: rekomendasiTitle, optionalText: rekomendasioptionalTitle, recommended: optionResult?.recommendationBorrowing?.jumlahDiterima ?? "0")
                                     }
                                     
@@ -76,7 +85,7 @@ struct RecommendationSheet: View {
                                     Button {
                                         showOpsiUserInput = true
                                     } label: {
-                                        if !showOpsiUserInput {
+                                        if !showOpsiUserInput &&  optionResult?.recommendationBorrowing?.jumlahDiterima != "0" {
                                             DetailRecommendationComponent(backgroundColor: .white, borderColor: .additionalColorLightGray, sectionTitle: "Pinjaman yang diajukan", optionalText: "", recommended: siPlinModel.borrowed)
                                         } else {
                                             DetailRecommendationComponent(backgroundColor: .primaryLightGreen, borderColor: .clear, sectionTitle: "Pinjaman yang diajukan", optionalText: "", recommended: siPlinModel.borrowed)
@@ -93,7 +102,7 @@ struct RecommendationSheet: View {
                         
                         VStack {
                             
-                            if !showOpsiUserInput {
+                            if !showOpsiUserInput && !recommendationZero {
                                 Text("Eksplor Opsi Tenor")
                                     .font(.system(size: 14, weight: .bold))
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -117,7 +126,7 @@ struct RecommendationSheet: View {
                                 }
                             }
                             
-                            if showOpsiUserInput || (!surplusNegative && !borrowingRequest.deficit) {
+                            if (showOpsiUserInput || (!surplusNegative && !borrowingRequest.deficit)) || recommendationZero {
                                 ForEach(optionToShow) { option in
                                     OptionComponentBasedOnInput(option: option, selectedOption: $selectedOption, borrowingRequest: option)
                                 }
@@ -181,7 +190,13 @@ struct RecommendationSheet: View {
                 rekomendasioptionalTitle = "Sesuai defisit dana"
             }
             
-            optionToShow = Array(optionResult?.borrowingLoan.prefix(3) ?? [])
+            recommendationZero =  optionResult?.recommendationBorrowing?.jumlahDiterima == "0" || optionResult?.recommendationBorrowing?.jumlahDiterima == nil
+            
+            if recommendationZero {
+                optionToShow = Array(optionResult?.borrowingLoan.suffix(3) ?? [])
+            } else {
+                optionToShow = Array(optionResult?.borrowingLoan.prefix(3) ?? [])
+            }
         }
         .onChange(of: showOpsiUserInput) {
             if !showOpsiUserInput {

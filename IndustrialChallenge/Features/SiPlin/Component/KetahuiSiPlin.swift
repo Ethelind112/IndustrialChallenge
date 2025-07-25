@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct KetahuiSiPlin: View {
-    
     var body: some View {
         Button {
             
