@@ -77,41 +77,6 @@ struct ToastView: View {
         .padding(.horizontal, 16)
     }
 }
-//struct ToastView: View {
-//    var type: ToastType
-//    var message: String
-//
-//    var body: some View {
-//        HStack(spacing: 12) {
-//            // Left-side stroke
-//            Rectangle()
-//                .fill(type.color)
-//                .frame(width: 20, height: 2)
-//                .cornerRadius(6, corners: UIRectCorner([.topLeft, .bottomLeft]))
-//            
-//            VStack(alignment: .leading, spacing: 4) {
-//                HStack(spacing: 6) {
-//                    Image(systemName: type.iconName)
-//                        .foregroundColor(type.color)
-//                    Text(type.title)
-//                        .font(.headline)
-//                        .foregroundColor(.black)
-//                }
-//                
-//                Text(message)
-//                    .font(.subheadline)
-//                    .foregroundColor(.gray)
-//            }
-//            .padding(.vertical, 12)
-//            .padding(.horizontal, 12)
-//        }
-//        .background(Color.white)
-//        .cornerRadius(8)
-//        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
-//        .padding(.horizontal, 24)
-//        .frame(maxWidth: 320, alignment: .center)
-//    }
-//}
 
 struct ToastView_Previews: PreviewProvider {
     static var previews: some View {
