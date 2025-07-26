@@ -44,7 +44,7 @@ struct NumberKeyboard: View {
                 Button {
                     if inputs != ""{
                         inputs.removeLast()
-                        inputs = inputs.formatToRupiahStyle()
+                        inputs = inputs.formatAsDecimal()
                     }
                 } label: {
                     Image(systemName: "delete.left")
@@ -58,7 +58,7 @@ struct NumberKeyboard: View {
         Text(text)
             .frame(width: 50, height: 50)
             .onTapGesture {
-                inputs = (inputs + text).formatToRupiahStyle()
+                inputs = (inputs + text).formatAsDecimal()
             }
     }
 }

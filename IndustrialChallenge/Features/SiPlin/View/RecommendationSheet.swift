@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RecommendationSheet: View {
+    @Binding var showSiPlinModal: Bool
+    @Binding var borrowBind: String
     @Binding var currsiPlinStep: SiPlinStep
     @State var borrowingRequest: BorrowingLoanRequest
     var viewModel: RecommendationCalculation = RecommendationCalculation()
@@ -21,6 +23,9 @@ struct RecommendationSheet: View {
     @State var income: String
     @State var borrowed: String
     @StateObject var siPlinModel: SiPlinController
+    
+    @State var showOpsiUserInput: Bool = false
+    @State var optionToShow: [BorrowingLoan] = []
     
     
     var body: some View {
@@ -47,56 +52,88 @@ struct RecommendationSheet: View {
                                 .padding(.vertical, 12)
                             
                             VStack {
-                                DetailRecommendationComponent(backgroundColor: .primaryLightGreen, borderColor: .clear, sectionTitle: rekomendasiTitle, optionalText: rekomendasioptionalTitle, recommended: optionResult?.recommendationBorrowing?.jumlahDiterima ?? "0")
+                                
+                                Button {
+                                    showOpsiUserInput = false
+                                } label: {
+                                    DetailRecommendationComponent(backgroundColor: .primaryLightGreen, borderColor: .clear, sectionTitle: rekomendasiTitle, optionalText: rekomendasioptionalTitle, recommended: optionResult?.recommendationBorrowing?.jumlahDiterima ?? "0")
+                                }
+                                
+                                
                                 
                                 if surplusNegative || borrowingRequest.deficit {
-                                    DetailRecommendationComponent(backgroundColor: .white, borderColor: .additionalColorLightGray, sectionTitle: "Pinjaman yang diajukan", optionalText: "", recommended: siPlinModel.loanRequest.expense)
+                                    
+                                    Button {
+                                        showOpsiUserInput = true
+                                    } label: {
+                                        DetailRecommendationComponent(backgroundColor: .white, borderColor: .additionalColorLightGray, sectionTitle: "Pinjaman yang diajukan", optionalText: "", recommended: siPlinModel.borrowed)
+                                    }
+                                    
                                 }
                                 
                             }
+                            .foregroundColor(.black)
                         }
                         .padding(.bottom, 24)
                         
                         VStack {
-                            Text("Eksplor Opsi Tenor")
-                                .font(.system(size: 14, weight: .bold))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .multilineTextAlignment(.leading)
                             
-                            if borrowingRequest.deficit {
-                                DeficitBanner(deficit: String(Int(borrowingRequest.expenseValue - borrowingRequest.incomeValue)).formatToRupiahStyle())
-                                    .padding(.bottom, 24)
+                            if !showOpsiUserInput {
+                                Text("Eksplor Opsi Tenor")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .multilineTextAlignment(.leading)
+                                
+                                if borrowingRequest.deficit {
+                                    DeficitBanner(deficit: String(Int(borrowingRequest.expenseValue - borrowingRequest.incomeValue)).formatToRupiahStyle())
+                                        .padding(.bottom, 24)
+                                } else {
+                                    SurplusBanner(surplus: String(Int(borrowingRequest.incomeValue - borrowingRequest.expenseValue)).formatToRupiahStyle())
+                                        .padding(.bottom, 24)
+                                }
                             } else {
-                                SurplusBanner(surplus: String(Int(borrowingRequest.incomeValue - borrowingRequest.expenseValue)).formatToRupiahStyle())
-                                    .padding(.bottom, 24)
-                            }
-                            
-                            
-                            ForEach(optionResult?.borrowingLoan ?? []) { option in
-                                OptionComponent(option: option, selectedOption: $selectedOption, borrowingRequest: option)
+                                VStack (alignment: .leading) {
+                                    Text("Lanjut dengan Pinjaman yang Diajukan")
+                                        .font(.system(size: 14, weight: .bold))
+                                        .bold()
                                     
+                                    AlertPilihanPinjaman()
+                                        .padding(.bottom, 24)
+                                }
                             }
                             
-                            
+                            if showOpsiUserInput || (!surplusNegative && !borrowingRequest.deficit) {
+                                ForEach(optionToShow) { option in
+                                    OptionComponentBasedOnInput(option: option, selectedOption: $selectedOption, borrowingRequest: option)
+                                }
+                            } else if !showOpsiUserInput {
+                                ForEach(optionToShow) { option in
+                                    OptionComponent(option: option, selectedOption: $selectedOption, borrowingRequest: option)
+                                    
+                                }
+                            }
                         }
                     }
                 }
                 .padding(.top, 5)
                 
                 Button{
+                    if let borrowResult = selectedOption?.jumlahDiterima {
+                        borrowBind = borrowResult.formatWithoutDot()
+                        showSiPlinModal = false
+                    }
                     
                 }label: {
-                    RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .white, backgroundColor: .primaryGreen)
+                    
+                    if selectedOption == nil {
+                        RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .gray, backgroundColor: .additionalColorLightGray)
+                    } else {
+                        RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .white, backgroundColor: .primaryGreen)
+                    }
+                    
+                    
                 }
-                
-                Button{
-                    siPlinModel.loanRequest.expense = ""
-                    siPlinModel.loanRequest.borrowingNeed = borrowed
-                    siPlinModel.loanRequest.income = income
-                    currsiPlinStep = .siPlinBorrowing
-                }label: {
-                    RecommendationViewButton(textButton: "Ulangi Rekomendasi", textColor: .primaryGreen, backgroundColor: .primaryLightGreen)
-                }
+                .disabled(selectedOption == nil)
 
             }
             .padding(.horizontal, 20)
@@ -113,6 +150,15 @@ struct RecommendationSheet: View {
             if borrowingRequest.deficit{
                 rekomendasioptionalTitle = "Sesuai defisit dana"
             }
+            
+            optionToShow = Array(optionResult?.borrowingLoan.prefix(3) ?? [])
+        }
+        .onChange(of: showOpsiUserInput) {
+            if !showOpsiUserInput {
+                optionToShow = Array(optionResult?.borrowingLoan.prefix(3) ?? [])
+            } else {
+                optionToShow = Array(optionResult?.borrowingLoan.suffix(3) ?? [])
+            }
         }
     }
 }
@@ -121,7 +167,5 @@ struct RecommendationSheet: View {
 //    @Previewable @State var currSiPlinStep = SiPlinStep.siPlinBorrowing
 //    @Previewable @StateObject var viewModel = StateObject(wrappedValue: SiPlinController(income: "9000000", borrowed: "9000000", expense: "10000000"))
 //    
-//    RecommendationSheet(currsiPlinStep: $currSiPlinStep, borrowingRequest: BorrowingLoanRequest(expense: "10000000", income: "9000000", borrowingNeed: "9000000"), income: "9000000", borrowed: "9000000", siPlinModel: viewModel)
-//    
-//    RecommendationSheet(currsiPlinStep: $currSiPlinStep, borrowingRequest: viewModel.loanRequest, income: income, borrowed: borrowed, siPlinModel: viewModel)
+//    RecommendationSheet(currsiPlinStep: $currSiPlinStep, borrowingRequest: BorrowingLoanRequest(expense: "9000000", income: "9000000", borrowingNeed: "9000000"), income: "9000000", borrowed: "9000000", siPlinModel: $viewModel)
 //}

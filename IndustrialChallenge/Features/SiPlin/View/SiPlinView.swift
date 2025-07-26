@@ -15,18 +15,22 @@ enum SiPlinStep {
 
 struct SiPlinView: View {
     
+    @Binding var borrowBind: String
+    @Binding var showSiPlinModal: Bool
     @State var income: String
     @State var borrowed: String
-    @State var expense: String = ""
+    @State var expense: String
     
     @StateObject var viewModel: SiPlinController
     
     @State var currSiPlinStep = SiPlinStep.siPlinBorrowing
     
-    init(income: String, borrowed: String) {
+    init(showSiPlinModal: Binding<Bool>, borrowBind: Binding<String>, income: String) {
+        self._borrowBind = borrowBind
+        self._showSiPlinModal = showSiPlinModal
         let expense = ""
         let formattedIncome = income.formatToRupiahStyle()
-        let formattedBorrowed = borrowed.formatToRupiahStyle()
+        let formattedBorrowed = borrowBind.wrappedValue.formatToRupiahStyle()
         
         self.income = formattedIncome
         self.borrowed = formattedBorrowed
@@ -44,12 +48,15 @@ struct SiPlinView: View {
         case .siPlinExpense:
             ExpenseSheet(viewModel: viewModel, currSiPlinStep: $currSiPlinStep)
         case .siPlinRecommendation:
-            RecommendationSheet(currsiPlinStep: $currSiPlinStep, borrowingRequest: viewModel.loanRequest, income: income, borrowed: borrowed, siPlinModel: viewModel)
+            RecommendationSheet(showSiPlinModal: $showSiPlinModal, borrowBind: $borrowBind, currsiPlinStep: $currSiPlinStep, borrowingRequest: viewModel.loanRequest, income: income, borrowed: borrowed, siPlinModel: viewModel)
         }
         
     }
 }
 
 #Preview {
-    SiPlinView(income: "9000000", borrowed: "9000000")
+    @Previewable @State var borrow = "9000000"
+    @Previewable @State var showSiPlinModal = true
+    
+    SiPlinView(showSiPlinModal: $showSiPlinModal, borrowBind: $borrow, income: "9000000")
 }

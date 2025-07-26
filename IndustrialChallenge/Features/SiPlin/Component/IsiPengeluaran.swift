@@ -10,6 +10,7 @@ import SwiftUI
 struct IsiPengeluaran: View {
     @ObservedObject var viewModel: SiPlinController
     @Binding var computation: String
+    @Binding var isError: Bool
     
     var body: some View {
         VStack (alignment: .leading) {
@@ -18,6 +19,7 @@ struct IsiPengeluaran: View {
             Text("Pengeluaranmu per bulan berapa?")
                 .fontWeight(.bold)
                 .font(.callout)
+                .foregroundColor(isError ? .red : .black)
             
             Text(computation)
                 .font(.caption)
@@ -26,7 +28,7 @@ struct IsiPengeluaran: View {
             HStack {
                 Text("Rp")
                 
-                TextField("Pengeluaran", text: $viewModel.loanRequest.expense)
+                TextField("0", text: $viewModel.loanRequest.expense)
                     .disabled(true)
             }
             .font(.title3)
@@ -34,7 +36,13 @@ struct IsiPengeluaran: View {
             
             Rectangle()
                 .frame(height: 1, alignment: .center)
-                .foregroundColor(.primaryGreen)
+                .foregroundColor(isError ? .red : .primaryGreen)
+            
+            if isError {
+                Text("Pengeluaran tidak boleh minus")
+                    .font(.caption)
+                    .foregroundColor(.red)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.bottom, 24)
