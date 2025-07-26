@@ -68,10 +68,13 @@ struct ExpenseSheet: View {
                                 .padding(.horizontal, 20)
                             
                             Button {
-                                currSiPlinStep = .siPlinRecommendation
+                                if !isError {
+                                    currSiPlinStep = .siPlinRecommendation
+                                }
+                                
                             } label: {
                                 
-                                if viewModel.expense == "" || viewModel.expense == "0" || isError {
+                                if isError {
                                     LanjutButton(textColor: .gray, backgroundColor: .additionalColorLightGray)
                                         .padding(.top, 30)
                                 } else {
@@ -81,7 +84,6 @@ struct ExpenseSheet: View {
                                 
                                 
                             }
-                            .disabled(isError)
     //                        .padding(.top, 1)
                         }
                         .font(.title3)
@@ -92,6 +94,9 @@ struct ExpenseSheet: View {
                     .padding(.horizontal, 20)
                     .padding(.vertical, 40)
                     
+                }
+                .onAppear {
+                    isError = Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0
                 }
                 .onChange(of: viewModel.expense) {
                     isError = Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0

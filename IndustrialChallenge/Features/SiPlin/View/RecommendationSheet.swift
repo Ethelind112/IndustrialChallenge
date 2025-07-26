@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct RecommendationSheet: View {
+    @Binding var showSuccessToast: Bool
+    @Binding var toastMessage: String
+    @Binding var toastType: ToastType
+    
+    @Binding var selectedOptionTenor: LoanOption
     @Binding var showSiPlinModal: Bool
     @Binding var borrowBind: String
     @Binding var currsiPlinStep: SiPlinStep
@@ -56,7 +61,12 @@ struct RecommendationSheet: View {
                                 Button {
                                     showOpsiUserInput = false
                                 } label: {
-                                    DetailRecommendationComponent(backgroundColor: .primaryLightGreen, borderColor: .clear, sectionTitle: rekomendasiTitle, optionalText: rekomendasioptionalTitle, recommended: optionResult?.recommendationBorrowing?.jumlahDiterima ?? "0")
+                                    if !showOpsiUserInput {
+                                        DetailRecommendationComponent(backgroundColor: .primaryLightGreen, borderColor: .clear, sectionTitle: rekomendasiTitle, optionalText: rekomendasioptionalTitle, recommended: optionResult?.recommendationBorrowing?.jumlahDiterima ?? "0")
+                                    } else {
+                                        DetailRecommendationComponent(backgroundColor: .white, borderColor: .additionalColorLightGray, sectionTitle: rekomendasiTitle, optionalText: rekomendasioptionalTitle, recommended: optionResult?.recommendationBorrowing?.jumlahDiterima ?? "0")
+                                    }
+                                    
                                 }
                                 
                                 
@@ -66,7 +76,12 @@ struct RecommendationSheet: View {
                                     Button {
                                         showOpsiUserInput = true
                                     } label: {
-                                        DetailRecommendationComponent(backgroundColor: .white, borderColor: .additionalColorLightGray, sectionTitle: "Pinjaman yang diajukan", optionalText: "", recommended: siPlinModel.borrowed)
+                                        if !showOpsiUserInput {
+                                            DetailRecommendationComponent(backgroundColor: .white, borderColor: .additionalColorLightGray, sectionTitle: "Pinjaman yang diajukan", optionalText: "", recommended: siPlinModel.borrowed)
+                                        } else {
+                                            DetailRecommendationComponent(backgroundColor: .primaryLightGreen, borderColor: .clear, sectionTitle: "Pinjaman yang diajukan", optionalText: "", recommended: siPlinModel.borrowed)
+                                        }
+                                        
                                     }
                                     
                                 }
@@ -118,9 +133,24 @@ struct RecommendationSheet: View {
                 .padding(.top, 5)
                 
                 Button{
-                    if let borrowResult = selectedOption?.jumlahDiterima {
-                        borrowBind = borrowResult.formatWithoutDot()
+                    if let borrowResult = selectedOption {
+                        borrowBind = borrowResult.jumlahDiterima.formatWithoutDot()
                         showSiPlinModal = false
+                        showSuccessToast = true
+                        toastType = .success
+                        toastMessage = "Nominal pinjaman berhasil dimasukkan!"
+                        
+                        var index = 0
+                        
+                        if borrowResult.tenor == 6 {
+                            index = 0
+                        } else if borrowResult.tenor == 9 {
+                            index = 1
+                        }else {
+                            index = 2
+                        }
+                        
+                        selectedOptionTenor = loanOptions[index]
                     }
                     
                 }label: {

@@ -14,6 +14,7 @@ struct BorrowingNeedSheet: View {
     @State var showToast = false
     @State var showToast2 = false
     @State var isError = false
+    @State var isEmpty = false
     
     var body: some View {
         NavigationStack {
@@ -67,7 +68,10 @@ struct BorrowingNeedSheet: View {
                                 .padding(.horizontal, 30)
                             
                             Button {
-                                currSiPlinStep = .siPlinExpense
+                                if !isEmpty && !isError {
+                                    currSiPlinStep = .siPlinExpense
+                                }
+                                
                             } label: {
                                 if borrowed == "" || borrowed == "0" || isError {
                                     LanjutButton(textColor: .gray, backgroundColor: .additionalColorLightGray)
@@ -77,7 +81,6 @@ struct BorrowingNeedSheet: View {
                                         .padding(.top, 30)
                                 }
                             }
-                            .disabled(isError)
                             
                         }
                         .font(.title3)
@@ -95,6 +98,12 @@ struct BorrowingNeedSheet: View {
             }
             .onChange(of: borrowed) {
                 isError = Int(borrowed.formatWithoutDot()) ?? 0 > maximumLimitPinjamanInt
+                
+                if borrowed == "" || borrowed == "0" {
+                    isEmpty = true
+                } else {
+                    isEmpty = false
+                }
                 
                 if isError {
                     showToast = true
