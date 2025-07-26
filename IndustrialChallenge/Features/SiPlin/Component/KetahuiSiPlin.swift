@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct KetahuiSiPlin: View {
+    @Binding var showSiPlinModal: Bool
+    @Binding var showOnBoarding: Bool
     
     var body: some View {
         Button {
-            
+            showSiPlinModal = false
+            showOnBoarding = true
         }label: {
             HStack {
                 Image(systemName: "play.circle.fill")
@@ -47,6 +50,6 @@ struct KetahuiSiPlin: View {
     }
 }
 
-#Preview {
-    KetahuiSiPlin()
-}
+//#Preview {
+//    KetahuiSiPlin()
+//}

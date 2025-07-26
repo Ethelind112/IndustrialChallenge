@@ -19,6 +19,7 @@ struct BorrowingView: View {
     @State private var showToast = false
     @State private var toastMessage = ""
     @State private var toastType: ToastType = .warning
+    @State var showOnBoarding: Bool = false
     
     let headerHeight: CGFloat = 120
     
@@ -73,6 +74,10 @@ struct BorrowingView: View {
                                     showSiPlinModal = true
                                 }) {
                                     SiPlinInactiveButton()
+                                }
+                                .sheet(isPresented: $showSiPlinModal) {
+                                    SiPlinView(showOnBoarding: $showOnBoarding, showSuccessToast: $showToast, toastType: $toastType, message: $toastMessage, selectedLoanOption: $selectedLoanOption, showSiPlinModal: $showSiPlinModal, borrowBind: $jumlahPinjaman, income: "9000000")
+                                        .presentationDetents([.height(800)])
                                 }
                                 
                                 DurasiTenorComponent(
@@ -230,7 +235,9 @@ struct BorrowingView: View {
                     }
             }
         }
-        
+        .fullScreenCover(isPresented: $showOnBoarding) {
+            OnboardingView(showOnBoarding: $showOnBoarding, showSiPlinModal: $showSiPlinModal)
+        }
         // MARK: - Sheets
         .sheet(isPresented: $showJumlahPinjamanTooltipModal) {
             JumlahPinjamanTooltip(isPresented: $showJumlahPinjamanTooltipModal)
@@ -251,10 +258,6 @@ struct BorrowingView: View {
         .sheet(isPresented: $showCicilanTooltipModal) {
             RincianCicilanTooltip(isPresented: $showCicilanTooltipModal)
                 .presentationDetents([.height(600)])
-        }
-        .sheet(isPresented: $showSiPlinModal) {
-            SiPlinView(showSuccessToast: $showToast, toastType: $toastType, message: $toastMessage, selectedLoanOption: $selectedLoanOption, showSiPlinModal: $showSiPlinModal, borrowBind: $jumlahPinjaman, income: "9000000")
-                .presentationDetents([.height(800)])
         }
         .onChange(of: jumlahPinjaman) { newValue in
             if let jumlahPinjamanDouble = Double(newValue) {

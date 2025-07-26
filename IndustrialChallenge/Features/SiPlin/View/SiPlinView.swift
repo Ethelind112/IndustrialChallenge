@@ -14,6 +14,7 @@ enum SiPlinStep {
 }
 
 struct SiPlinView: View {
+    @Binding var showOnBoarding: Bool
     @Binding var toastType: ToastType
     @Binding var message: String
     @Binding var showSuccessToast: Bool
@@ -29,7 +30,8 @@ struct SiPlinView: View {
     
     @State var currSiPlinStep = SiPlinStep.siPlinBorrowing
     
-    init(showSuccessToast: Binding<Bool>, toastType: Binding<ToastType>, message: Binding<String>, selectedLoanOption: Binding<LoanOption>, showSiPlinModal: Binding<Bool>, borrowBind: Binding<String>, income: String) {
+    init(showOnBoarding: Binding<Bool>, showSuccessToast: Binding<Bool>, toastType: Binding<ToastType>, message: Binding<String>, selectedLoanOption: Binding<LoanOption>, showSiPlinModal: Binding<Bool>, borrowBind: Binding<String>, income: String) {
+        self._showOnBoarding = showOnBoarding
         self._showSuccessToast = showSuccessToast
         self._toastType = toastType
         self._message = message
@@ -52,7 +54,7 @@ struct SiPlinView: View {
     var body: some View {
         switch currSiPlinStep {
         case .siPlinBorrowing:
-            BorrowingNeedSheet(borrowed: $viewModel.loanRequest.borrowingNeed, currSiPlinStep: $currSiPlinStep)
+            BorrowingNeedSheet(borrowed: $viewModel.loanRequest.borrowingNeed, currSiPlinStep: $currSiPlinStep, showOnBoarding: $showOnBoarding, showSiPlinModal: $showSiPlinModal)
             
         case .siPlinExpense:
             ExpenseSheet(viewModel: viewModel, currSiPlinStep: $currSiPlinStep)
@@ -73,6 +75,7 @@ struct SiPlinView: View {
     @Previewable @State var message: String = "Nominal pinjaman berhasil dimasukkan!"
     
     @Previewable @State var showSuccessToast: Bool = false
+    @Previewable @State var showOnBoarding: Bool = false
     
-    SiPlinView(showSuccessToast: $showSuccessToast, toastType: $toastType, message: $message, selectedLoanOption: $selectedLoanOption, showSiPlinModal: $showSiPlinModal, borrowBind: $borrow, income: "9000000")
+    SiPlinView(showOnBoarding: $showOnBoarding, showSuccessToast: $showSuccessToast, toastType: $toastType, message: $message, selectedLoanOption: $selectedLoanOption, showSiPlinModal: $showSiPlinModal, borrowBind: $borrow, income: "9000000")
 }

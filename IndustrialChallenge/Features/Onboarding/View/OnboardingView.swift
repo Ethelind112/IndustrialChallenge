@@ -11,7 +11,9 @@ struct OnboardingView: View {
     @ObservedObject var countTimer = CountTimer(items: 5, interval: 4.0)
     @Environment(\.dismiss) private var dismiss
     
-
+    @Binding var showOnBoarding: Bool
+    @Binding var showSiPlinModal: Bool
+    
     var body: some View {
         ZStack(alignment: .top) {
             Image(images[min(Int(countTimer.progress), images.count - 1)])
@@ -25,6 +27,8 @@ struct OnboardingView: View {
                     Spacer()
                         .padding(.trailing)
                     Button(action: {
+                        showOnBoarding = false
+                        showSiPlinModal = true
                         dismiss()
                     }) {
                         Image(systemName: "xmark")
@@ -71,7 +75,9 @@ struct OnboardingView: View {
                 VStack {
                     Spacer()
                     Button("Coba Sekarang!") {
-                        dismiss() 
+                        showOnBoarding = false
+                        showSiPlinModal = true
+                        dismiss()
                     }
                     .font(.headline)
                     .foregroundColor(.white)
@@ -90,8 +96,8 @@ struct OnboardingView: View {
     }
 }
 
-struct OnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingView()
-    }
-}
+//struct OnboardingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        OnboardingView()
+//    }
+//}

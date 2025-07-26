@@ -15,6 +15,8 @@ struct BorrowingNeedSheet: View {
     @State var showToast2 = false
     @State var isError = false
     @State var isEmpty = false
+    @Binding var showOnBoarding: Bool
+    @Binding var showSiPlinModal: Bool
     
     var body: some View {
         NavigationStack {
@@ -33,7 +35,10 @@ struct BorrowingNeedSheet: View {
                 }
                 
                 VStack {
+                    
+                    
                     HeaaderBorrowingNeed()
+                    
                     
                     VStack {
                         Text("Langsung dapatkan jumlah pinjaman yang sesuai dengan kapabilitasmu!")
@@ -43,7 +48,8 @@ struct BorrowingNeedSheet: View {
                         
                         Spacer()
                         
-                        KetahuiSiPlin()
+                       
+                        KetahuiSiPlin(showSiPlinModal: $showSiPlinModal, showOnBoarding: $showOnBoarding)
                             .shadow(color: Color.black.opacity(0.25), radius: 3.5, x: 0, y: 4)
                         
                         Spacer()
