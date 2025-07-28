@@ -44,10 +44,18 @@ struct RecommendationSheet: View {
                 ScrollView {
                     VStack {
                         VStack {
-                            Text("Yuk Pinjam Sesuai Surplusmu!")
-                                .font(.system(size: 14, weight: .bold))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .multilineTextAlignment(.leading)
+                            if borrowingRequest.deficit {
+                                Text("Yuk Pinjam Sesuai Defisitmu!")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .multilineTextAlignment(.leading)
+                            } else {
+                                Text("Yuk Pinjam Sesuai Surplusmu!")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .multilineTextAlignment(.leading)
+                            }
+                            
                             
                             
                             Text("Jumlah pinjaman yang kamu ajukan belum sesuai dengan kapabilitas keuanganmu saat ini.")
