@@ -42,19 +42,19 @@ EASY is a financial literacy-focused in-app features designed to increase borrow
 - A final **summary page** encourages thoughtful borrowing.
 - Built-in **checkpoints** help users reflect before confirming.
 - Users can **review and adjust** loan details before committing.
-<img width="333" height="222" alt="Group 1" src="https://github.com/user-attachments/assets/22e3cf23-2f0e-4b89-bb0a-8beabd91cad6" />
+<img width="390" height="367" alt="image" src="https://github.com/user-attachments/assets/c5cc3ea7-b54a-4609-84a0-72a090528c92" />
+
 
 ---
 
 ## 👥 Brought to You By
 
-- **Patricia Putri Artsyani**  
-- **Ethelind Septiani Metta**  
-- **Jesslyn Amanda M.**  
-- **Wiwi Oktriani**  
-- **Priscilla Anthonio**
+- **Patricia Putri Artsyani**  - Product Manager
+- **Ethelind Septiani Metta**  - iOS Developer
+- **Jesslyn Amanda M.**  - iOS Developer
+- **Wiwi Oktriani**  - UI/UX Designer
+- **Priscilla Anthonio** - UI/UX Designer
   
 ## 📬 Feedback & Contributions
-
 We welcome feedback and contributions!  
 <img width="1920" height="1080" alt="ctaaaa" src="https://github.com/user-attachments/assets/aa4685f1-5aee-45f7-9aca-ef76a65898e0" />
