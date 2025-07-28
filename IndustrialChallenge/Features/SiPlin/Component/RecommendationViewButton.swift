@@ -11,6 +11,7 @@ struct RecommendationViewButton: View {
     @State var textButton: String
     @State var textColor: Color
     @State var backgroundColor: Color
+    @Binding var siPlinRecommendation: Bool
     
     var body: some View {
         Text(textButton)
@@ -24,6 +25,6 @@ struct RecommendationViewButton: View {
     }
 }
 
-#Preview {
-    RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .primaryGreen, backgroundColor: .primaryLightGreen)
-}
+//#Preview {
+//    RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .primaryGreen, backgroundColor: .primaryLightGreen)
+//}

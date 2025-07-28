@@ -20,6 +20,12 @@ struct BorrowingView: View {
     @State private var toastMessage = ""
     @State private var toastType: ToastType = .warning
     @State var showOnBoarding: Bool = false
+    // siplin recommendation state
+    @State var siPlinRecommendation : Bool = false
+    @State var rekomendasiPinjaman: String = "0"
+    @State var alertSiPlin : Bool = false
+    @State private var currSiPlinStep: SiPlinStep = .siPlinBorrowing
+
     
     let headerHeight: CGFloat = 120
     
@@ -56,10 +62,10 @@ struct BorrowingView: View {
                                     showCustomNumpad: $showCustomNumpad,
                                     input: $jumlahPinjaman,
                                     showMaksimumLimitTooltip: $showMaksimumLimitTooltipModal,
+                                    alertSiPlin: $alertSiPlin,
                                     showToastCallback: { type, message in
                                         toastType = type
                                         toastMessage = message
-
                                         showToast = false
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                                             withAnimation {
@@ -70,15 +76,43 @@ struct BorrowingView: View {
 
                                 )
                                 
-                                Button(action: {
-                                    showSiPlinModal = true
-                                }) {
-                                    SiPlinInactiveButton()
-                                }
-                                .sheet(isPresented: $showSiPlinModal) {
-                                    SiPlinView(showOnBoarding: $showOnBoarding, showSuccessToast: $showToast, toastType: $toastType, message: $toastMessage, selectedLoanOption: $selectedLoanOption, showSiPlinModal: $showSiPlinModal, borrowBind: $jumlahPinjaman, income: "9000000")
+                                if siPlinRecommendation {
+                                    SiPlinActiveButton(
+                                        rekomendasiPinjaman: $rekomendasiPinjaman,
+                                        showSiPlinModal: $showSiPlinModal,
+                                        siPlinRecommendation: $siPlinRecommendation,
+                                        currSiPlinStep: $currSiPlinStep
+                                    )
+                                    .sheet(isPresented: $showSiPlinModal) {
+                                        SiPlinView(
+                                            showOnBoarding: $showOnBoarding,
+                                            showSuccessToast: $showToast,
+                                            toastType: $toastType,
+                                            message: $toastMessage,
+                                            selectedLoanOption: $selectedLoanOption,
+                                            showSiPlinModal: $showSiPlinModal,
+                                            borrowBind: $jumlahPinjaman,
+                                            income: "9000000",
+                                            siPlinRecommendation: $siPlinRecommendation,
+                                            rekomendasiPinjaman: $rekomendasiPinjaman,
+                                            currSiPlinStep: $currSiPlinStep
+                                        )
                                         .presentationDetents([.height(800)])
+                                    }
+
+                                }else{
+                                    Button(action: {
+                                        showSiPlinModal = true
+                                    }) {
+                                        SiPlinInactiveButton()
+                                    }
+                                    .sheet(isPresented: $showSiPlinModal) {
+                                        SiPlinView(showOnBoarding: $showOnBoarding, showSuccessToast: $showToast, toastType: $toastType, message: $toastMessage, selectedLoanOption: $selectedLoanOption, showSiPlinModal: $showSiPlinModal, borrowBind: $jumlahPinjaman, income: "9000000", siPlinRecommendation: $siPlinRecommendation, rekomendasiPinjaman: $rekomendasiPinjaman, currSiPlinStep: $currSiPlinStep)
+                                            .presentationDetents([.height(800)])
+                                    }
                                 }
+                                
+                                
                                 
                                 DurasiTenorComponent(
                                     showDurasiTenorTooltipModal: $showDurasiTenorTooltipModal,
@@ -263,11 +297,30 @@ struct BorrowingView: View {
             if let jumlahPinjamanDouble = Double(newValue) {
                 borrowingLoan = BorrowingController().hitungPinjaman(jumlahDiterima: jumlahPinjamanDouble, option: selectedLoanOption)
             }
+            if rekomendasiPinjaman != "0"{
+                if let newVal = Double(newValue), let rekom = cleanCurrencyString(rekomendasiPinjaman) {
+                    if newVal > rekom {
+                        print("Alert SiPlin")
+                        print("\(rekom)")
+                        print(newVal)
+                        alertSiPlin = true
+                    } else {
+                        alertSiPlin = false
+                    }
+                } else {
+                    // Handle invalid input, e.g., show an error, log, or reset alert
+                    print("Invalid input: cannot convert to Double")
+                    alertSiPlin = false
+                }
+            }
+            
+
         }
         .onChange(of: selectedLoanOption) { newOption in
             if let jumlahPinjamanDouble = Double(jumlahPinjaman) {
                 borrowingLoan = BorrowingController().hitungPinjaman(jumlahDiterima: jumlahPinjamanDouble, option: newOption)
             }
         }
+        
     }
 }

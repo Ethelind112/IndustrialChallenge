@@ -29,3 +29,8 @@ func formatToRupiahStyle(_ input: String) -> String {
 
     return formatter.string(from: NSNumber(value: number)) ?? input
 }
+
+func cleanCurrencyString(_ value: String) -> Double? {
+    let cleaned = value.replacingOccurrences(of: ".", with: "")
+    return Double(cleaned)
+}

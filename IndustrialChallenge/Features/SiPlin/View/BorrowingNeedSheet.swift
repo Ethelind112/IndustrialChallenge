@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BorrowingNeedSheet: View {
-    
+    @Environment(\.modelContext) private var modelContext
     @Binding var borrowed: String
     @Binding var currSiPlinStep: SiPlinStep
     @State var showToast = false
@@ -102,6 +103,21 @@ struct BorrowingNeedSheet: View {
                     
                 }
             }
+            .onAppear {
+                    Task {
+                        do {
+                            let descriptor = FetchDescriptor<BorrowingLoanRequest>()
+                            let records = try modelContext.fetch(descriptor)
+                            for record in records {
+                                modelContext.delete(record)
+                            }
+                            try modelContext.save()
+                            print("✅ Deleted all BorrowingLoanRequest data on appear.")
+                        } catch {
+                            print("❌ Failed to delete BorrowingLoanRequest: \(error)")
+                        }
+                    }
+                }
             .onChange(of: borrowed) {
                 isError = Int(borrowed.formatWithoutDot()) ?? 0 > maximumLimitPinjamanInt
                 

@@ -44,8 +44,37 @@ struct DefaultRiskReminderComponent: View {
 
             if isExpanded {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Kamu akan dikenakan denda keterlambatan,       . cek di sini").font(.system(size: 13)).fontWeight(.regular)
-                    Text("Skor kredit kamu di SLIK OJK akan terpengaruh").font(.system(size: 13)).fontWeight(.regular)
+                    VStack(alignment: .leading, spacing: 0) {
+                               Text("Kamu akan dikenakan denda keterlambatan, ")
+                                   .font(.system(size: 13))
+                                   .fontWeight(.regular)
+                               Text("cek di sini")
+                                   .font(.system(size: 13))
+                                   .fontWeight(.regular)
+                                   .foregroundColor(Color("PrimaryGreen"))
+                                   .underline()
+                                   .onTapGesture {
+                                       if let url = URL(string: "https://easycash.id/blog/pengalaman-tidak-bayar-pinjol-legal") {
+                                           UIApplication.shared.open(url)
+                                       }
+                                   }
+                           }
+                   
+                    HStack(spacing: 0) {
+                        Text("Skor kredit kamu di ")
+                        Text("SLIK OJK")
+                            .foregroundColor(Color("PrimaryGreen"))
+                            .underline()
+                            .onTapGesture {
+                                if let url = URL(string: "https://ojk.go.id/id/kanal/perbankan/Pages/Sistem-Layanan-Informasi-Keuangan-SLIK.aspx?preview=true,true") {
+                                    UIApplication.shared.open(url)
+                                }
+                            }
+                        Text(" akan terpengaruh")
+                    }
+                           .font(.system(size: 13))
+                           .fontWeight(.regular)
+                    
                     Text("Tim penagihan kami akan menghubungi kamu secara berkala").font(.system(size: 13)).fontWeight(.regular)
                     
                 }

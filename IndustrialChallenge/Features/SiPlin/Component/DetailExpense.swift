@@ -17,7 +17,6 @@ struct DetailExpense: View {
                 Text("Jumlah pinjaman yang diajukan")
                 Spacer()
                 Text("Rp \(viewModel.borrowed)")
-                Image(systemName: "pencil")
             }
             .font(.caption)
             .padding(16)
@@ -28,7 +27,6 @@ struct DetailExpense: View {
                 Text("Pendapatan")
                 Spacer()
                 Text("Rp \(viewModel.income)")
-                Image(systemName: "pencil")
             }
             .font(.caption)
             .padding(16)

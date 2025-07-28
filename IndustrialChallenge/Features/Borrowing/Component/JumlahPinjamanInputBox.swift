@@ -12,6 +12,7 @@ struct JumlahPinjamanInputBox: View {
     @Binding var showCustomNumpad: Bool
     @Binding var input: String
     @Binding var showMaksimumLimitTooltip: Bool
+    @Binding var alertSiPlin: Bool
     var maximumLimit = formatToRupiahStyle(maximumLimitPinjaman)
     var showToastCallback: (ToastType, String) -> Void
 
@@ -51,6 +52,9 @@ struct JumlahPinjamanInputBox: View {
                 }
             }
             Divider().background(Color("PrimaryGreen"))
+            if alertSiPlin{
+                AlertSiPlin()
+            }
             HStack{
                 HStack(spacing: 12){
                     Text("Maksimum Limit")

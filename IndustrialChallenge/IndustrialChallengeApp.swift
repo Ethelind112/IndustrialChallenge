@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct IndustrialChallengeApp: App {
     var body: some Scene {
         WindowGroup {
             BorrowingView()
-        }
+        } .modelContainer(for: [BorrowingLoanRequest.self])
     }
 }

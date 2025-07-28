@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import SwiftData
 
+@Model
 class BorrowingLoanRequest: ObservableObject {
     var expense: String
     var income: String
     var borrowingNeed: String
+    var createdAt: Date
     
     var expenseValue: Double {
         Double(expense.formatWithoutDot()) ?? 0
@@ -32,5 +35,6 @@ class BorrowingLoanRequest: ObservableObject {
         self.expense = expense
         self.income = income
         self.borrowingNeed = borrowingNeed
+        self.createdAt = Date()
     }
 }

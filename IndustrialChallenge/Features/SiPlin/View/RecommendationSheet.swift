@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
-
+import SwiftData
 struct RecommendationSheet: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \BorrowingLoanRequest.createdAt, order: .reverse) var existingRecords: [BorrowingLoanRequest]
+
     @Binding var showSuccessToast: Bool
     @Binding var toastMessage: String
     @Binding var toastType: ToastType
@@ -16,6 +19,8 @@ struct RecommendationSheet: View {
     @Binding var showSiPlinModal: Bool
     @Binding var borrowBind: String
     @Binding var currsiPlinStep: SiPlinStep
+    @Binding var siPlinRecommendation: Bool
+    @Binding var rekomendasiPinjaman:String
     @State var borrowingRequest: BorrowingLoanRequest
     var viewModel: RecommendationCalculation = RecommendationCalculation()
     @State var surplusNegative: Bool = false
@@ -75,6 +80,7 @@ struct RecommendationSheet: View {
                                     
                                     Button {
                                         showOpsiUserInput = true
+                                        
                                     } label: {
                                         if !showOpsiUserInput {
                                             DetailRecommendationComponent(backgroundColor: .white, borderColor: .additionalColorLightGray, sectionTitle: "Pinjaman yang diajukan", optionalText: "", recommended: siPlinModel.borrowed)
@@ -135,10 +141,28 @@ struct RecommendationSheet: View {
                 Button{
                     if let borrowResult = selectedOption {
                         borrowBind = borrowResult.jumlahDiterima.formatWithoutDot()
+                        rekomendasiPinjaman = borrowResult.jumlahDiterima
+                        let record = BorrowingLoanRequest(
+                            expense: borrowingRequest.expense,
+                            income: borrowingRequest.income,
+                            borrowingNeed: borrowingRequest.borrowingNeed
+                        )
+
+                        modelContext.insert(record)
+
+                        do {
+                            try modelContext.save()
+                            print("Saved borrowing record to SwiftData.")
+                        } catch {
+                            print("❌ Failed to save record: \(error)")
+                        }
+
+                        
                         showSiPlinModal = false
                         showSuccessToast = true
                         toastType = .success
                         toastMessage = "Nominal pinjaman berhasil dimasukkan!"
+                        siPlinRecommendation = true
                         
                         var index = 0
                         
@@ -156,9 +180,9 @@ struct RecommendationSheet: View {
                 }label: {
                     
                     if selectedOption == nil {
-                        RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .gray, backgroundColor: .additionalColorLightGray)
+                        RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .gray, backgroundColor: .additionalColorLightGray, siPlinRecommendation: $siPlinRecommendation)
                     } else {
-                        RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .white, backgroundColor: .primaryGreen)
+                        RecommendationViewButton(textButton: "Gunakan Opsi", textColor: .white, backgroundColor: .primaryGreen, siPlinRecommendation: $siPlinRecommendation)
                     }
                     
                     
@@ -169,6 +193,16 @@ struct RecommendationSheet: View {
             .padding(.horizontal, 20)
         }
         .onAppear {
+            if let lastRecord = existingRecords.first {
+                borrowingRequest = BorrowingLoanRequest(
+                    expense: lastRecord.expense,
+                    income: lastRecord.income,
+                    borrowingNeed: lastRecord.borrowingNeed
+                )
+                print("✅ Loaded existing BorrowingLoanRecord from SwiftData")
+            } else {
+                print("ℹ️ No existing BorrowingLoanRecord found")
+            }
             (optionResult, surplusNegative) = viewModel.calculateResult(loanRequest: borrowingRequest)
             
             if borrowingRequest.deficit || surplusNegative{
@@ -192,10 +226,3 @@ struct RecommendationSheet: View {
         }
     }
 }
-
-//#Preview {
-//    @Previewable @State var currSiPlinStep = SiPlinStep.siPlinBorrowing
-//    @Previewable @StateObject var viewModel = StateObject(wrappedValue: SiPlinController(income: "9000000", borrowed: "9000000", expense: "10000000"))
-//    
-//    RecommendationSheet(currsiPlinStep: $currSiPlinStep, borrowingRequest: BorrowingLoanRequest(expense: "9000000", income: "9000000", borrowingNeed: "9000000"), income: "9000000", borrowed: "9000000", siPlinModel: $viewModel)
-//}

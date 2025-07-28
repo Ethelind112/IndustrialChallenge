@@ -15,6 +15,8 @@ struct SummaryView: View {
 
     @State private var isChecked = false
     @State private var showTooltip = false
+    @State private var navigateToLoading = false
+
 
     var body: some View {
         ZStack {
@@ -95,10 +97,18 @@ struct SummaryView: View {
             if !showTooltip {
                 VStack(spacing: 0) {
                     Spacer()
+                    
+                    ZStack {
+                        NavigationLink(
+                            destination: LoadingPengajuanView(),
+                            isActive: $navigateToLoading,
+                            label: { EmptyView() }
+                        )
 
-                    AgreementBottomView(isChecked: $isChecked) {
-                        if isChecked {
-                            // Action here
+                        AgreementBottomView(isChecked: $isChecked) {
+                            if isChecked {
+                                navigateToLoading = true
+                            }
                         }
                     }
                     .padding(.horizontal, 16)
@@ -109,6 +119,9 @@ struct SummaryView: View {
                             .blur(radius: 1)
                             .ignoresSafeArea(edges: .bottom)
                     )
+
+
+                    
                 }
             }
         }
