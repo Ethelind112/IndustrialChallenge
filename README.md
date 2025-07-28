@@ -1,4 +1,5 @@
 <img width="1920" height="1080" alt="Opening" src="https://github.com/user-attachments/assets/73c8763c-50a2-4c56-b88a-cb3a80adaef3" />
+
 # EASY: Empowering Financial Literacy for Borrowers
 
 **EASY** stands for:
