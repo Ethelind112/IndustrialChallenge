@@ -14,7 +14,10 @@ struct ExpenseSheet: View {
     @State var computation: String = ""
     @State var showToast = false
     @State var showToast2 = false
+    @State var showToast3 = false
     @State var isError = false
+    
+
     
     var body: some View {
         NavigationView {
@@ -32,6 +35,18 @@ struct ExpenseSheet: View {
                                 }
                             }
                         }
+                }
+                if showToast3{
+                    ToastView(type: .warning, message: "Pengeluaran tidak boleh sama dengan pendapatan!")
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                            .zIndex(999)
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                                    withAnimation {
+                                        showToast = false
+                                    }
+                                }
+                            }
                 }
                 
                 VStack {
@@ -69,7 +84,19 @@ struct ExpenseSheet: View {
                             
                             Button {
                                 if !isError {
-                                    currSiPlinStep = .siPlinRecommendation
+                                    let income = Int(viewModel.income.formatWithoutDot()) ?? 0
+                                    let expense = Int(viewModel.expense.formatWithoutDot()) ?? 0
+                                    print(income)
+                                    print(expense)
+                                    
+                                    if expense == income {
+                                        withAnimation {
+                                            showToast3 = true
+                                        }
+                                    }else{
+                                        currSiPlinStep = .siPlinRecommendation
+                                    }
+                                    
                                 }
                                 
                             } label: {
@@ -97,6 +124,11 @@ struct ExpenseSheet: View {
                 }
                 .onAppear {
                     isError = Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0
+                }
+                .onAppear {
+                    let income = Int(viewModel.income.formatWithoutDot()) ?? 0
+                    let expense = Int(viewModel.expense.formatWithoutDot()) ?? 0
+                    isError = expense < 0 || expense == income
                 }
                 .onChange(of: viewModel.expense) {
                     isError = Int(viewModel.expense.formatWithoutDot()) ?? 0 < 0
